@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "identity": "etadsh",
+  "packageName": "dsh.android.client",
+  "certificateSha256": "f2c1d39e23a20ac55334bae0cc5e9efd19a73cb11330e9469b33aff9ee60ec8a",
+  "schemes": ["v1", "v2", "v3"],
+  "appName": "DSHA",
+  "keyAlias": "eta",
+  "testSuffix": ".test",
+  "devSuffix": ".dev",
+  "tagPrefix": "dsh-eta-build",
+  "apkPrefix": "dsh-eta",
+  "repository": "LANDRINKJUICE/DSH-Eta",
+  "ref": "refs/heads/main",
+  "privateRepository": true,
+  "workflow": ".github/workflows/release-production.yml"
+}

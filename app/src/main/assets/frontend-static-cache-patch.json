@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "dshVersion": "0.2.2-rc.1",
+  "module": "@deepseek-ai/dsh-host-frontend-static/lib/index.js",
+  "sourceSha256": "6bb17c239f48fc26d4cf990af3139e7b64ae9f06fc5249bce7b58a3130edaed4",
+  "patches": [
+    {
+      "before": "const STATIC_MISS_CODES = new Set([",
+      "after": "/**\n* DSHA_STATIC_CACHE_V3: upstream (0.2.2) owns the content-hash weak ETag, 304 and HEAD.\n* DSHA only adds RFC 9110 If-None-Match list/wildcard matching (older WebViews merge\n* candidates) and an explicit no-store on the rendered index, whose inline boot\n* injection must never be reused from a WebView cache.\n*/\nfunction dshaRevalidated(value, tag) {\n\tif (typeof value !== \"string\") return false;\n\tif (value.trim() === \"*\") return true;\n\tconst opaque = tag.replace(/^W\\//, \"\");\n\treturn (value.match(/(?:W\\/)?\"[^\"\\r\\n]*\"/g) ?? []).some((candidate) => candidate.replace(/^W\\//, \"\") === opaque);\n}\nconst STATIC_MISS_CODES = new Set(["
+    },
+    {
+      "before": "\t\t\tif (request.headers.get(\"if-none-match\") === cache.etag) return new Response(null, {",
+      "after": "\t\t\tif (dshaRevalidated(request.headers.get(\"if-none-match\"), cache.etag)) return new Response(null, {"
+    },
+    {
+      "before": "\t\t\theaders = { \"content-type\": HTML_MIME };",
+      "after": "\t\t\theaders = { \"content-type\": HTML_MIME, \"cache-control\": \"no-store\" };"
+    }
+  ]
+}
