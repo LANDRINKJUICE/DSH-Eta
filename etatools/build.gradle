@@ -21,4 +21,8 @@ android {
 dependencies {
     // RootAccess 等用协程；版本取 DSHA verification-metadata 已登记的最小集，避免新增校验条目
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1'
+    // memory 的 enabled 开关（DataStore Preferences）
+    implementation 'androidx.datastore:datastore-preferences:1.3.0'
+    // skill 的 GitHub 发现/安装（PublicGitHubSkillSource）
+    implementation 'com.squareup.okhttp3:okhttp:5.5.1'
 }
