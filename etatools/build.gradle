@@ -17,3 +17,8 @@ android {
         targetCompatibility JavaVersion.VERSION_17
     }
 }
+
+dependencies {
+    // RootAccess 等用协程；版本取 DSHA verification-metadata 已登记的最小集，避免新增校验条目
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1'
+}

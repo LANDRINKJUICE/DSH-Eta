@@ -1,9 +1,9 @@
 package com.deepseekharness.app.etatools.context
 
-/**
- * 从 Eta agent/context/PersonalSearchTools.kt 抽出的纯数据部分（不含依赖 PersonalContextQueryService 的 IndexedPersonalSearch）。
- * 值逐项照抄。
- */
+import org.json.JSONArray
+import org.json.JSONObject
+
+/** 模型面对领域名称；索引资源与协议仅在这里映射，不成为公开工具参数。 */
 internal object PersonalSearchTools {
     data class Search(
         val name: String,
@@ -34,4 +34,74 @@ internal object PersonalSearchTools {
     fun canonical(name: String): String = aliases[name] ?: name
 
     fun isIndexedSearch(name: String): Boolean = searches.any { it.name == name }
+}
+
+internal class IndexedPersonalSearch(private val service: PersonalContextQueryService) {
+    fun execute(name: String, arguments: JSONObject, fallback: Boolean = false): JSONObject? {
+        val request = JSONObject(arguments.toString())
+        val source =
+            when (name) {
+                "search_media" ->
+                    if (request.optString("match", "name") == "content") "photos" else return null
+                "search_files" ->
+                    if (request.optString("match", "name") == "content") "files" else return null
+                "search_notes" -> if (fallback) "notes" else return null
+                "search_system_memories" ->
+                    if (hasExtendedFilter(request)) "memories" else return null
+                "summarize_bills" -> "bills"
+                "read_personal_item" -> {
+                    val reference = request.opt("ref") as? String ?: return invalid()
+                    val parts = reference.split(':')
+                    if (
+                        parts.size != 3 ||
+                            parts[0] != "eta-index" ||
+                            PersonalContextSources.find(parts[1]) == null ||
+                            !Regex("[0-9]{1,19}").matches(parts[2]) ||
+                            parts[2].toLongOrNull() == null ||
+                            request.length() != 1
+                    )
+                        return invalid()
+                    request.remove("ref")
+                    request.put("id", parts[2])
+                    parts[1]
+                }
+                else ->
+                    PersonalSearchTools.searches.firstOrNull { it.name == name }?.source
+                        ?: return null
+            }
+        request.remove("match")
+        request.remove("current_only")
+        request
+            .put("source", source)
+            .put(
+                "action",
+                when (name) {
+                    "read_personal_item" -> "read"
+                    "summarize_bills" -> "bill_summary"
+                    else -> "search"
+                },
+            )
+        return service.execute(request).put("tool", name).also { result ->
+            val items = result.optJSONArray("items") ?: JSONArray()
+            for (index in 0 until items.length()) {
+                val item = items.getJSONObject(index)
+                item
+                    .optString("id")
+                    .takeIf { it.toLongOrNull() != null }
+                    ?.let {
+                        item.put("ref", "eta-index:$source:$it")
+                    }
+            }
+            result.put("reference_scope", "索引引用仅用于读取；修改原始应用记录必须重新核对原始对象 ID")
+        }
+    }
+
+    private fun hasExtendedFilter(args: JSONObject) =
+        listOf("start_time", "end_time", "offset", "sort").any(args::has)
+
+    private fun invalid() =
+        JSONObject()
+            .put("ok", false)
+            .put("code", "INVALID_ARGUMENT")
+            .put("message", "必须提供查询结果返回的完整 ref")
 }
