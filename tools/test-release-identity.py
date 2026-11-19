@@ -1,4 +1,4 @@
-"""发布身份解析：默认 upstream（官方发行）、显式 mod、未知值报错；Gradle 与 Python 解析规则一致。"""
+"""发布身份解析：默认 etadsh、显式 mod/upstream、未知值报错；Gradle 与 Python 解析规则一致。"""
 import contextlib
 import importlib.util
 import io
@@ -16,6 +16,7 @@ spec.loader.exec_module(identity)
 
 MOD_CERT = "a4b0413c67fa46dd30dc7e2bce3ad56151ed8bfde2a3315fff685baf786b5d5d"
 UPSTREAM_CERT = "e7e3a31a75946f2669194c972b3dd0c9aea3fc7c50a8b885d2dee710b22a53f5"
+ETADSH_CERT = "f2c1d39e23a20ac55334bae0cc5e9efd19a73cb11330e9469b33aff9ee60ec8a"
 
 
 def run(*argv):
@@ -26,14 +27,14 @@ def run(*argv):
 
 
 class Resolution(unittest.TestCase):
-    def test_default_is_upstream(self):
+    def test_default_is_etadsh(self):
         for name in (None, ""):
             value = identity.load(name)
-            self.assertEqual(value["identity"], "upstream")
+            self.assertEqual(value["identity"], "etadsh")
             self.assertEqual(value["packageName"], "dsh.android.client")
-            self.assertEqual(value["certificateSha256"], UPSTREAM_CERT)
+            self.assertEqual(value["certificateSha256"], ETADSH_CERT)
             self.assertEqual((value["appName"], value["keyAlias"], value["testSuffix"], value["devSuffix"]),
-                             ("DSHA", "androiddebugkey", ".SunsetRNE", ".SunsetDev"))
+                             ("DSHA", "eta", ".test", ".dev"))
         self.assertEqual(run("--field", "packageName"), (0, "dsh.android.client", ""))
 
     def test_upstream_branch(self):
@@ -56,7 +57,7 @@ class Resolution(unittest.TestCase):
 
     def test_identities_never_share_signing_or_package(self):
         loaded = identity.check()
-        self.assertEqual(set(loaded), {"mod", "upstream"})
+        self.assertEqual(set(loaded), {"mod", "upstream", "etadsh"})
         legacy = json.loads((ROOT / "ci/release-identity.json").read_text(encoding="utf-8"))
         for key in ("packageName", "certificateSha256", "schemes"):
             self.assertEqual(legacy[key], loaded["mod"][key], key)
@@ -94,8 +95,8 @@ class GradleContract(unittest.TestCase):
         names = re.search(r"def releaseIdentityNames = \[([^\]]+)\]", self.gradle)
         self.assertIsNotNone(names)
         self.assertEqual(tuple(re.findall(r"'([^']+)'", names.group(1))), identity.IDENTITIES)
-        self.assertIn("(project.findProperty('dsha.identity') ?: 'upstream')", self.gradle)
-        self.assertEqual(identity.DEFAULT, "upstream")
+        self.assertIn("(project.findProperty('dsha.identity') ?: 'etadsh')", self.gradle)
+        self.assertEqual(identity.DEFAULT, "etadsh")
         self.assertIn('throw new GradleException("UNKNOWN_RELEASE_IDENTITY', self.gradle)
         self.assertIn('rootProject.file("ci/release-identity.${releaseIdentityName}.json")', self.gradle)
 

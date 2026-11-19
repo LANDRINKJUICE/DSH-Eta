@@ -55,7 +55,7 @@ class WorkflowGraph(unittest.TestCase):
                     if selected.startswith("./"):
                         self.assertTrue((ROOT / selected[2:]).exists())
                     else:
-                        self.assertRegex(selected, r"^[\w.-]+/[\w.-]+@[0-9a-f]{40}$")
+                        self.assertRegex(selected, r"^[\w.-]+\/[\w.-]+(?:\/[\w.-]+)*@[0-9a-f]{40}$")
 
     def test_reusable_nodes_are_call_only_and_read_only(self):
         for path in WORKFLOWS.glob("_node-*.yml"):
@@ -352,8 +352,8 @@ class SourceAndServices(unittest.TestCase):
     def test_only_test_package_and_release_sign(self):
         for path in WORKFLOWS.glob("*.yml"):
             source = path.read_text(encoding="utf-8")
-            if path.name in ("release-production.yml", "release-official.yml",
-                             "test-package.yml", "test-package-variants.yml", "_node-test-packages.yml"):
+            if path.name in ("release-production.yml", "release-etadsh.yml", "release-official.yml",
+                             "update-verification.yml", "test-package.yml", "test-package-variants.yml", "_node-test-packages.yml"):
                 continue
             with self.subTest(file=path.name):
                 self.assertNotIn("apksigner", source)
@@ -572,6 +572,54 @@ class InputsNpmCache(unittest.TestCase):
         self.assertIn('prepare-dsh-runtime.py --cache "$RUNNER_TEMP/dsha-npm-cache"', source)
         self.assertIn("retention-days: 1", source)
         self.assertIn("compression-level: 0", source)
+
+
+class EtadshRelease(unittest.TestCase):
+    """etadsh 身份专用发布工作流：身份文件、Secret 名与仓库契约。"""
+
+    def setUp(self):
+        self.source = text("release-etadsh.yml")
+        self.jobs = jobs(self.source)
+        self.expected = json.loads((ROOT / "ci/release-identity.etadsh.json").read_text(encoding="utf-8"))
+
+    def test_bind_reads_the_etadsh_identity_file(self):
+        bind = self.jobs["bind"]
+        self.assertIn("github.repository == 'LANDRINKJUICE/DSH-Eta'", bind)
+        self.assertIn("github.ref == 'refs/heads/main'", bind)
+        self.assertIn("open('ci/release-identity.etadsh.json'", bind)
+        self.assertIn("selected = resolver.check()['etadsh']", bind)
+        self.assertIn("if identity['packageName'] != 'dsh.android.client':", bind)
+        tag = self.expected["tagPrefix"]
+        apk = self.expected["apkPrefix"]
+        self.assertIn(f"re.fullmatch(r'{tag}[0-9]+-[0-9]{{8}}-[0-9]{{6}}', tag)", bind)
+        self.assertIn(f"output.write('apk_name={apk}-'", bind)
+
+    def test_etadsh_identity_is_used_for_build_and_signing(self):
+        self.assertIn("-Pdsha.identity=etadsh", self.jobs["build-unsigned"])
+        self.assertIn("--check-only --apk", self.jobs["build-unsigned"])
+        self.assertIn("--identity etadsh", self.jobs["sign-verify"])
+        self.assertIn("release_identity: etadsh", self.source)
+        self.assertNotIn("--identity mod", self.source)
+        self.assertNotIn("release_identity: mod", self.source)
+        self.assertEqual(set(self.jobs), {"bind", "contracts", "java-format", "host-regression",
+                                          "inputs", "unit", "lint", "build-unsigned",
+                                          "sign-verify", "test-packages-unsigned",
+                                          "test-packages", "publish", "dry-run-summary"})
+
+    def test_signing_uses_our_secrets_and_keeps_contract_env_names(self):
+        signer = self.jobs["sign-verify"]
+        self.assertIn("secrets.ETA_RELEASE_KEYSTORE_BASE64", signer)
+        self.assertIn("secrets.ETA_RELEASE_STORE_PASSWORD", signer)
+        self.assertIn("secrets.ETA_RELEASE_KEY_PASSWORD", signer)
+        self.assertIn("secrets.ETA_RELEASE_KEY_ALIAS", signer)
+        self.assertNotIn("secrets.DSHA_", signer)
+        # printf 写出的 DSHA_KEYSTORE* 是 build.gradle / sign-release-apks.py 读取的契约变量名，
+        # 不是 GitHub Secret 名，必须与签名工具保持一致。
+        self.assertIn("printf 'DSHA_KEYSTORE=", signer)
+        self.assertIn("printf 'DSHA_KEYSTORE_PASSWORD=", signer)
+        for name, block in self.jobs.items():
+            if name not in ("sign-verify", "test-packages"):
+                self.assertNotIn("secrets.", block)
 
 
 if __name__ == "__main__":

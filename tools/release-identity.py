@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""发布身份解析：upstream（默认，官方发行）与 mod 两套身份互斥，绝不混用。
+"""发布身份解析：etadsh（默认）与 mod、upstream 三套身份互斥，绝不混用。
 
 身份文件 ci/release-identity.<name>.json 保存包名、证书 SHA-256、显示名、默认 key alias、
 测试/开发后缀、tag 前缀和允许发布的仓库/分支。versionCode/versionName 两种身份共用，只写在
@@ -18,8 +18,8 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-IDENTITIES = ("mod", "upstream")
-DEFAULT = "upstream"
+IDENTITIES = ("mod", "upstream", "etadsh")
+DEFAULT = "etadsh"
 FIELDS = ("schema", "identity", "packageName", "certificateSha256", "schemes", "appName", "keyAlias",
           "testSuffix", "devSuffix", "tagPrefix", "apkPrefix", "repository", "ref", "privateRepository",
           "workflow")
@@ -58,7 +58,7 @@ def validate(name, value):
 
 
 def load(name=None, root=None):
-    """name 为 None 或空串时取默认 upstream；未知值直接报错，不回退。"""
+    """name 为 None 或空串时取默认 etadsh；未知值直接报错，不回退。"""
     selected = DEFAULT if name in (None, "") else name
     path = path_for(selected)
     if root is not None:

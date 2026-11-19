@@ -12,6 +12,6 @@
   "apkPrefix": "dsh-eta",
   "repository": "LANDRINKJUICE/DSH-Eta",
   "ref": "refs/heads/main",
-  "privateRepository": true,
-  "workflow": ".github/workflows/release-production.yml"
+  "privateRepository": false,
+  "workflow": ".github/workflows/release-etadsh.yml"
 }
