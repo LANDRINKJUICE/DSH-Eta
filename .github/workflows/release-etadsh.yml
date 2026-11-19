@@ -220,7 +220,7 @@ jobs:
       - name: Build unsigned production APK
         run: |
           chmod +x gradlew
-          ./gradlew :app:assembleStandardRelease -Pdsha.identity=etadsh -Pdsha.unsignedPackage=true --no-daemon --max-workers=2
+          ./gradlew :app:assembleStandardRelease -Pdsha.identity=etadsh -Pdsha.unsignedPackage=true --no-daemon --max-workers=2 --refresh-dependencies
       # 未签名阶段先核验清单、确实未签名和受管资产：签名只允许新增 META-INF/，
       # sign-verify 会逐成员比对载荷，签名不会掩盖资产改名 / 摘要回归。
       - name: Verify unsigned production APK manifest and managed assets
