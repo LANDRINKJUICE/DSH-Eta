@@ -19,7 +19,7 @@ internal class EtaMcpServer(
     private val token: String?,
     context: Context,
     logger: AgentLogger,
-    caps: AgentToolCapabilities,
+    private val caps: AgentToolCapabilities,
     local: AgentLocalTools,
 ) : AutoCloseable {
     private val toolExecutor = EtaMcpToolExecutor(context, logger, caps, local)
