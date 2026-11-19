@@ -44,3 +44,8 @@ jobs:
         run: |
           ./gradlew --no-daemon --no-configuration-cache :etatools:compileStandardReleaseKotlin 2>&1 | tee compile.log
           grep -q 'BUILD SUCCESSFUL' compile.log
+
+      - name: 核对备份依赖锁与 :etatools 工程依赖解析（不触发 preBuild/rootfs）
+        run: |
+          ./gradlew --no-daemon --no-configuration-cache :app:verifyBackupDependencies 2>&1 | tee deps.log
+          grep -q 'BUILD SUCCESSFUL' deps.log

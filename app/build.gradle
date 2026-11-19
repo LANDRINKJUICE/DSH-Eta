@@ -462,10 +462,26 @@ def verifyBackupDependencies = tasks.register("verifyBackupDependencies") {
             hash.digest().encodeHex().toString()
         }
         ["standardReleaseRuntimeClasspath"].each { name ->
-            def resolved = configurations.getByName(name).resolvedConfiguration.resolvedArtifacts
+            // 只解析外部 Maven 模块：project(':etatools') 在本构建里会同时暴露
+            // aar / art-profile / assets / classes 等多个 artifact（AGP 9 内置 Kotlin 的库模块），
+            // 而 legacy resolvedConfiguration.resolvedArtifacts 不携带 artifactType，
+            // 无法唯一定位 → 报 "cannot choose between the following variants"。
+            // 备份依赖锁只登记 gson / bcprov / snakeyaml 三个外部坐标，
+            // 因此按组件类型过滤掉 project 组件是语义等价（且更精确）的做法。
+            def externalArtifacts = configurations.getByName(name).incoming.artifactView {
+                componentFilter { id ->
+                    id instanceof org.gradle.api.artifacts.component.ModuleComponentIdentifier
+                }
+            }.artifacts.artifacts.collect { artifact ->
+                def id = artifact.id.componentIdentifier
+                        as org.gradle.api.artifacts.component.ModuleComponentIdentifier
+                [group: id.group, name: id.module, version: id.version, file: artifact.file]
+            }
             lock.dependencies.each { expected ->
-                def selected = resolved.findAll { it.moduleVersion.id.group == expected.group && it.name == expected.name }
-                if (selected.size() != 1 || selected[0].moduleVersion.id.version != expected.version)
+                def selected = externalArtifacts.findAll {
+                    it.group == expected.group && it.name == expected.name
+                }
+                if (selected.size() != 1 || selected[0].version != expected.version)
                     throw new GradleException("备份依赖版本未锁定：${expected.group}:${expected.name}")
                 if (fileDigest(selected[0].file) != expected.sha256)
                     throw new GradleException("备份依赖摘要不符：${expected.name}")
@@ -507,14 +523,10 @@ def verifyUiLanguageResources = tasks.register("verifyUiLanguageResources", Exec
 tasks.named("preBuild").configure { dependsOn(verifyUiLanguageResources) }
 
 dependencies {
-    implementation(project(':etatools')) {
-        attributes {
-            attribute(
-                org.gradle.api.attributes.Attribute.of('artifactType', String),
-                'android-classes',
-            )
-        }
-    }
+    // 标准工程依赖：artifact 选择交给 AGP（AAR 元数据 / art-profile / 资源转换都由 AGP 内部处理）。
+    // 曾试过在这里强制 artifactType=android-classes，结果把 classes jar 当 AAR 交给
+    // expandStandardReleaseL8ArtProfileWildcards，baseline-prof.txt 解析报 Illegal token 'K'。
+    implementation project(':etatools')
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.4'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'androidx.webkit:webkit:1.15.0'
