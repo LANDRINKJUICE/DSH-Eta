@@ -37,12 +37,19 @@ dependencies {
 }
 
 // AGP 9 内置 Kotlin 下，library 模块的 runtimeElements 不会自动声明
-// org.jetbrains.kotlin.platform.type，导致 :app（也用内置 Kotlin）依赖时 variant 歧义。
-// 显式给 runtime 出向 variant 补齐 androidJvm 平台属性。
+// org.jetbrains.kotlin.platform.type / component category / target JVM environment，
+// 导致 :app（也用内置 Kotlin）依赖时 variant 歧义。显式补齐这三个出向属性。
 import org.jetbrains.kotlin.gradle.plugin.KotlinPlatformType
+import org.gradle.api.attributes.Category
+import org.gradle.api.attributes.java.TargetJvmEnvironment
 
 configurations.matching { it.name.endsWith("RuntimeElements") }.configureEach {
     attributes {
         attribute(KotlinPlatformType.attribute, KotlinPlatformType.androidJvm)
+        attribute(Category.CATEGORY_ATTRIBUTE, objects.named(Category, Category.LIBRARY))
+        attribute(
+            TargetJvmEnvironment.TARGET_JVM_ENVIRONMENT_ATTRIBUTE,
+            objects.named(TargetJvmEnvironment, TargetJvmEnvironment.ANDROID),
+        )
     }
 }
