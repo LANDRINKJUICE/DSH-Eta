@@ -1,0 +1,19 @@
+plugins {
+    id 'com.android.library'
+}
+
+// Eta 工具层独立模块：只依赖 Android framework 与标准库，不继承 :app 的 rootfs 资产链，
+// 因此可独立编译验证（不触发 preBuild / 不碰 offline-rootfs / dsh-runtime.bin）。
+android {
+    namespace 'com.deepseekharness.app.etatools'
+    compileSdk {
+        version = release(37)
+    }
+    defaultConfig {
+        minSdk 30
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}

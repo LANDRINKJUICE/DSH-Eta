@@ -507,6 +507,7 @@ def verifyUiLanguageResources = tasks.register("verifyUiLanguageResources", Exec
 tasks.named("preBuild").configure { dependsOn(verifyUiLanguageResources) }
 
 dependencies {
+    implementation project(':etatools')
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.4'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'androidx.webkit:webkit:1.15.0'
