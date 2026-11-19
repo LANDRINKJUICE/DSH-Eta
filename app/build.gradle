@@ -1,6 +1,5 @@
 plugins {
     id 'com.android.application'
-    id 'org.jetbrains.kotlin.android'
 }
 
 // DSHA 官方发行版（单一 Standard 变体）：Android 11（API 30）及以上；发布身份见下方 dsha.identity。
