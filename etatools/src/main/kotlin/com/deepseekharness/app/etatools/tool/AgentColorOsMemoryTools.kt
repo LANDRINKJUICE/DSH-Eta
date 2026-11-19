@@ -15,7 +15,7 @@ private const val COLOROS_MEMORY_DATABASE_MAX_BYTES = 64L * 1024 * 1024
 private const val COLOROS_MEMORY_SIDECAR_MAX_BYTES = 64L * 1024 * 1024
 private val COLOROS_MEMORY_SIDECARS = listOf("-wal", "-shm", "-journal")
 
-internal fun buildColorOsMemorySnapshotCommand(source: String, snapshot: File): String = buildString {
+fun buildColorOsMemorySnapshotCommand(source: String, snapshot: File): String = buildString {
     fun shellQuote(value: String): String = "'" + value.replace("'", "'\\''") + "'"
 
     append("[ -f ").append(shellQuote(source)).append(" ] || exit 21; ")
@@ -39,7 +39,7 @@ internal fun buildColorOsMemorySnapshotCommand(source: String, snapshot: File): 
 /**
  * 优先让小布记忆 Hook 在目标进程内执行只读查询；Hook 不可用时兼容旧的 Root 快照路径。
  */
-internal class AgentColorOsMemoryTools(
+class AgentColorOsMemoryTools(
     private val context: Context,
     private val root: BoundedRootCommandExecutor,
 ) {

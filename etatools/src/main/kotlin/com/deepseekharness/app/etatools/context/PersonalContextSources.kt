@@ -3,11 +3,11 @@ package com.deepseekharness.app.etatools.context
 import java.math.BigInteger
 import java.time.Instant
 
-internal enum class PersonalContextFieldKind { TEXT, INTEGER, DECIMAL }
+enum class PersonalContextFieldKind { TEXT, INTEGER, DECIMAL }
 
-internal data class PersonalContextTimeBounds(val startInclusive: Long?, val endExclusive: Long?)
+data class PersonalContextTimeBounds(val startInclusive: Long?, val endExclusive: Long?)
 
-internal enum class PersonalContextTimeUnit(val unitsPerSecond: Long, val requiresNumericCast: Boolean = false) {
+enum class PersonalContextTimeUnit(val unitsPerSecond: Long, val requiresNumericCast: Boolean = false) {
     MILLISECONDS(1_000),
     SECONDS(1),
     TEXT_MILLISECONDS(1_000, requiresNumericCast = true);
@@ -27,7 +27,7 @@ internal enum class PersonalContextTimeUnit(val unitsPerSecond: Long, val requir
     }
 }
 
-internal data class PersonalContextField(
+data class PersonalContextField(
     val logicalName: String,
     val physicalCandidates: List<String>,
     val kind: PersonalContextFieldKind = PersonalContextFieldKind.TEXT,
@@ -37,15 +37,15 @@ internal data class PersonalContextField(
     val description: String? = null,
 )
 
-internal enum class PersonalContextFilterOperator { EQUALS, NULL_OR_EQUALS }
+enum class PersonalContextFilterOperator { EQUALS, NULL_OR_EQUALS }
 
-internal data class PersonalContextFixedFilter(
+data class PersonalContextFixedFilter(
     val fieldName: String,
     val operator: PersonalContextFilterOperator,
     val value: Long,
 )
 
-internal data class PersonalContextSource(
+data class PersonalContextSource(
     val id: String,
     val label: String,
     val resource: String,
@@ -73,7 +73,7 @@ internal data class PersonalContextSource(
     val sortTimeKind: String get() = if (timeField == null) "indexed" else "business"
 }
 
-internal object PersonalContextSources {
+object PersonalContextSources {
     const val BILL_CURRENCY = "CNY"
     const val BILL_AMOUNT_UNIT = "yuan"
     const val BILL_EXPENSES = "expenses"

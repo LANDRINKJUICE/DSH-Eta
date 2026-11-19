@@ -1,13 +1,13 @@
 package com.deepseekharness.app.etatools.device
 
-internal enum class ScreenshotQuality(val wireName: String) {
+enum class ScreenshotQuality(val wireName: String) {
     NOT_REQUESTED("not_requested"),
     COMPLETE("complete"),
     PARTIAL("partial"),
     FAILED("failed"),
 }
 
-internal object ScreenshotOutcomePolicy {
+object ScreenshotOutcomePolicy {
     fun classify(
         requested: Boolean,
         hasImage: Boolean,

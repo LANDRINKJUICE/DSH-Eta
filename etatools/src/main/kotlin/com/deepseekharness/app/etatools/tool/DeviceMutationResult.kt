@@ -3,7 +3,7 @@ package com.deepseekharness.app.etatools.tool
 import org.json.JSONObject
 
 /** 命令返回和状态读回分开报告，未知结果不能伪装成已改变。 */
-internal object DeviceMutationResult {
+object DeviceMutationResult {
     fun observed(
         tool: String,
         userId: Int,

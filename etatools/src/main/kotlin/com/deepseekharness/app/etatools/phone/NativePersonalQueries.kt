@@ -7,7 +7,7 @@ import org.json.JSONArray
 import org.json.JSONObject
 
 /** 原始个人数据使用固定字段与绑定参数；调用方不能提供 URI 或 SQL。 */
-internal class NativePersonalQueries(
+class NativePersonalQueries(
     private val resolver: PhoneProviderAccess,
     private val userId: Int,
 ) {

@@ -37,7 +37,7 @@ import org.json.JSONArray
 import org.json.JSONObject
 
 /** 常用设备能力的执行路由；Root 脚本由对应执行器固定生成。 */
-internal class AgentStructuredDeviceTools(
+class AgentStructuredDeviceTools(
     private val context: Context,
     private val logger: AgentLogger,
     private val root: BoundedRootCommandExecutor,

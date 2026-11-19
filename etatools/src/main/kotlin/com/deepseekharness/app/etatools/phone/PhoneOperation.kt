@@ -5,9 +5,9 @@ import java.time.ZoneId
 import org.json.JSONArray
 import org.json.JSONObject
 
-internal class PhoneOperationFailure(val code: String, message: String) : RuntimeException(message)
+class PhoneOperationFailure(val code: String, message: String) : RuntimeException(message)
 
-internal object PhoneOperation {
+object PhoneOperation {
     val reads =
         setOf(
             "get_night_light",

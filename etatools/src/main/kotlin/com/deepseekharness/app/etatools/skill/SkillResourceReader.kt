@@ -14,7 +14,7 @@ data class SkillResourceLimits(
 )
 
 /** 在已安装 Skill 根目录内列出和读取有界 UTF-8 文本资源。 */
-class SkillResourceReader internal constructor(
+class SkillResourceReader constructor(
     skillsRoot: File,
     private val limits: SkillResourceLimits = SkillResourceLimits(),
 ) {
@@ -204,7 +204,7 @@ class SkillResourceReader internal constructor(
 }
 
 /** 严格 UTF-8 解码；超限、NUL 或除换行/回车/制表符外的控制字符均视为非文本。 */
-internal fun readStrictUtf8(file: File, maxBytes: Long): String? {
+fun readStrictUtf8(file: File, maxBytes: Long): String? {
     if (file.length() > maxBytes) return null
     val bytes = file.inputStream().use { input ->
         val initialCapacity = minOf(file.length(), maxBytes, Int.MAX_VALUE.toLong())

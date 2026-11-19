@@ -8,7 +8,7 @@ import org.json.JSONArray
 import org.json.JSONObject
 
 /** 读取聊天应用的图片缓存；系统个人数据由原生 Provider 通道负责。 */
-internal class ChatImageSearchTools(private val root: BoundedRootCommandExecutor) {
+class ChatImageSearchTools(private val root: BoundedRootCommandExecutor) {
     fun execute(name: String, args: JSONObject): ToolResult? =
         when (name) {
             "search_qq_chat_images" -> searchQqChatImages(args)

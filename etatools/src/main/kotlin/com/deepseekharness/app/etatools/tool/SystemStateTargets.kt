@@ -1,7 +1,7 @@
 package com.deepseekharness.app.etatools.tool
 
 /** 从 Eta agent/tool/SystemStateControls.kt 的 companion object 抽出的系统开关目标常量。值逐项照抄。 */
-internal object SystemStateTargets {
+object SystemStateTargets {
     val targets =
         listOf(
             "wifi",

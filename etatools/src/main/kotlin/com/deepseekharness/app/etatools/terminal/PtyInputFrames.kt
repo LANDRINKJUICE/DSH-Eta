@@ -5,7 +5,7 @@ package com.deepseekharness.app.etatools.terminal
  * stdin 是唯一能同时送达 Root 与普通身份进程的通道，终端字节与窗口尺寸因此共用它，
  * 由帧类型区分，避免在终端字节流里夹带可被用户输入伪造的控制序列。
  */
-internal object PtyInputFrames {
+object PtyInputFrames {
     private const val TYPE_DATA = 0
     private const val TYPE_RESIZE = 1
     private const val HEADER_SIZE = 3

@@ -11,7 +11,7 @@ import com.deepseekharness.app.etatools.core.AgentLogger
 import org.json.JSONObject
 
 /** 有明确系统语义的开关；不把模型提供的设置键或命令作为执行入口。 */
-internal class SystemStateControls(
+class SystemStateControls(
     private val context: Context,
     private val logger: AgentLogger? = null,
     private val execute: (String) -> BoundedRootCommandExecutor.Result,

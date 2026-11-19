@@ -10,7 +10,7 @@ import com.deepseekharness.app.etatools.model.ModelImage
 import java.io.ByteArrayOutputStream
 import java.io.File
 
-internal object AgentImageCodec {
+object AgentImageCodec {
     fun fromBytes(
         bytes: ByteArray,
         source: String,

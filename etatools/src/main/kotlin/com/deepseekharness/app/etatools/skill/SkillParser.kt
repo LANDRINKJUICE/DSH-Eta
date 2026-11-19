@@ -8,7 +8,7 @@ import java.io.File
  * 支持 `>` / `|` 多行块、缩进子块，以及普通的 `key: value` 行。
  * 纯字符串处理，不依赖外部 YAML 库。
  */
-internal object SkillParser {
+object SkillParser {
 
     /**
      * 读取并解析 [skillFile]，返回 frontmatter map + body string。

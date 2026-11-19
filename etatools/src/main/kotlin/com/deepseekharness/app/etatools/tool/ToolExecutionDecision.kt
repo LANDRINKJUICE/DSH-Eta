@@ -1,6 +1,6 @@
 package com.deepseekharness.app.etatools.tool
 
-internal sealed interface ToolExecutionDecision {
+sealed interface ToolExecutionDecision {
     data object Allow : ToolExecutionDecision
 
     data class Reject(

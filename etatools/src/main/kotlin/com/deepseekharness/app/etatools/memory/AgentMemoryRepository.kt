@@ -7,14 +7,14 @@ import java.io.IOException
 import java.security.MessageDigest
 import kotlinx.coroutines.flow.Flow
 
-internal data class AgentMemorySnapshot(
+data class AgentMemorySnapshot(
     val content: String,
     val revision: String,
     val byteSize: Int,
     val lineCount: Int,
 )
 
-internal data class AgentMemoryReadResult(
+data class AgentMemoryReadResult(
     val snapshot: AgentMemorySnapshot,
     val content: String,
     val startLine: Int?,
@@ -23,7 +23,7 @@ internal data class AgentMemoryReadResult(
     val matchedLines: Int,
 )
 
-internal sealed interface AgentMemoryMutation {
+sealed interface AgentMemoryMutation {
     val revision: String
 
     data class ReplaceRange(
@@ -43,19 +43,19 @@ internal sealed interface AgentMemoryMutation {
     ) : AgentMemoryMutation
 }
 
-internal sealed interface AgentMemoryWriteResult {
+sealed interface AgentMemoryWriteResult {
     data class Success(val snapshot: AgentMemorySnapshot) : AgentMemoryWriteResult
     data class Conflict(val snapshot: AgentMemorySnapshot) : AgentMemoryWriteResult
 }
 
-internal class AgentMemoryException(
+class AgentMemoryException(
     val code: String,
     message: String,
     cause: Throwable? = null,
 ) : IllegalStateException(message, cause)
 
 /** 单一 MEMORY.md 的有界、原子文件存储。 */
-internal class AgentMemoryStore(
+class AgentMemoryStore(
     rootDir: File,
 ) {
     private val memoryDir = File(rootDir, DIRECTORY_NAME)
@@ -301,7 +301,7 @@ internal class AgentMemoryStore(
     }
 }
 
-internal object AgentMemoryRepository {
+object AgentMemoryRepository {
     @Volatile
     private lateinit var store: AgentMemoryStore
 

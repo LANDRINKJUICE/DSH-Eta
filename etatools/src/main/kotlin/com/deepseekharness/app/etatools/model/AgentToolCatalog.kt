@@ -5,7 +5,7 @@ import com.deepseekharness.app.etatools.tool.ToolSwitchIds
 import org.json.JSONArray
 
 /** 声明模型可见的工具及其 JSON Schema；不包含任何执行逻辑。 */
-internal object AgentToolCatalog {
+object AgentToolCatalog {
     fun build(
         terminalTools: Boolean,
         browserTools: Boolean,

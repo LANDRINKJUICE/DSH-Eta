@@ -9,7 +9,7 @@ import android.content.Context
  * 动作由宿主模块实现本接口后注入。这里不引用无障碍服务、虚拟屏或 Xposed 的任何实现类型，
  * 只依赖 [Observation] / [ElementObservation] 纯数据契约与 Android framework。
  */
-internal interface DeviceController : AutoCloseable {
+interface DeviceController : AutoCloseable {
     fun observe(includeScreenshot: Boolean, includeUiTree: Boolean, maxNodes: Int, displayId: Int): Observation
     fun screenDimensions(displayId: Int): Pair<Int, Int>
     fun tap(x: Int, y: Int, displayId: Int): String

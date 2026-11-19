@@ -5,7 +5,7 @@ import java.util.Base64
 import org.json.JSONObject
 
 /** Eta Runtime 与小布记忆 Hook 之间的有界内部协议。 */
-internal object ColorOsMemoryBridgeProtocol {
+object ColorOsMemoryBridgeProtocol {
     const val PACKAGE_NAME = "com.oplus.aimemory"
     const val PROVIDER_CLASS = "com.oplus.aimemory.provider.DataShareProvider"
     const val PROVIDER_URI = "content://com.oplus.aimemory.provider.DataShareProvider"

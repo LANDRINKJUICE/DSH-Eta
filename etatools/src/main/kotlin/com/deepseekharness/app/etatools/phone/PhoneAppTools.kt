@@ -5,7 +5,7 @@ import com.deepseekharness.app.etatools.device.BoundedRootCommandExecutor
 import com.deepseekharness.app.etatools.device.DeviceToolContract
 import org.json.JSONObject
 
-internal class PhoneAppTools(
+class PhoneAppTools(
     private val context: Context,
     private val root: BoundedRootCommandExecutor,
     private val rootAvailable: () -> Boolean,

@@ -4,7 +4,7 @@ import org.json.JSONArray
 import org.json.JSONObject
 
 /** 模型面对领域名称；索引资源与协议仅在这里映射，不成为公开工具参数。 */
-internal object PersonalSearchTools {
+object PersonalSearchTools {
     data class Search(
         val name: String,
         val source: String,
@@ -36,7 +36,7 @@ internal object PersonalSearchTools {
     fun isIndexedSearch(name: String): Boolean = searches.any { it.name == name }
 }
 
-internal class IndexedPersonalSearch(private val service: PersonalContextQueryService) {
+class IndexedPersonalSearch(private val service: PersonalContextQueryService) {
     fun execute(name: String, arguments: JSONObject, fallback: Boolean = false): JSONObject? {
         val request = JSONObject(arguments.toString())
         val source =

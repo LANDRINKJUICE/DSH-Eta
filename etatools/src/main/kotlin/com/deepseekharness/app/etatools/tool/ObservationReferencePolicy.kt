@@ -1,6 +1,6 @@
 package com.deepseekharness.app.etatools.tool
 
-internal object ObservationReferencePolicy {
+object ObservationReferencePolicy {
     enum class Status {
         MATCH,
         NO_OBSERVATION,

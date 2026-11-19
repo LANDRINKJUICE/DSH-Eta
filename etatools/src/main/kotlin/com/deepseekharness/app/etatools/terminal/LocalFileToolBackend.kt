@@ -13,7 +13,7 @@ import java.nio.file.StandardCopyOption
 import java.nio.file.attribute.BasicFileAttributes
 import java.security.MessageDigest
 
-internal class LocalFileToolBackend(
+class LocalFileToolBackend(
     workspace: File,
     home: File = workspace,
     override val environment: String = "android",

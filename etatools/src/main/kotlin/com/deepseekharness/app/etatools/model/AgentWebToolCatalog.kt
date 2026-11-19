@@ -4,7 +4,7 @@ import org.json.JSONArray
 import org.json.JSONObject
 
 /** 公开网页搜索与静态正文读取不改变共享浏览器会话。 */
-internal object AgentWebToolCatalog {
+object AgentWebToolCatalog {
     fun appendTo(tools: JSONArray, includeSearch: Boolean = true) {
         if (includeSearch) tools.put(AgentToolSchema.function(
             name = "web_search",

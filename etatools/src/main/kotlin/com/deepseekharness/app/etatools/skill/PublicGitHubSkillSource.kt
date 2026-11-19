@@ -16,7 +16,7 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.json.JSONObject
 
-internal data class GitHubSkillRepository(
+data class GitHubSkillRepository(
     val owner: String,
     val repository: String,
     val ref: String? = null,
@@ -25,12 +25,12 @@ internal data class GitHubSkillRepository(
     val slug: String = "$owner/$repository"
 }
 
-internal data class GitHubSkillCandidate(
+data class GitHubSkillCandidate(
     val name: String,
     val path: String,
 )
 
-internal data class GitHubSkillInspection(
+data class GitHubSkillInspection(
     val repository: String,
     val ref: String,
     val commitSha: String,
@@ -38,14 +38,14 @@ internal data class GitHubSkillInspection(
     val candidates: List<GitHubSkillCandidate>,
 )
 
-internal class GitHubSkillSourceException(
+class GitHubSkillSourceException(
     val code: String,
     message: String,
     cause: Throwable? = null,
 ) : IOException(message, cause)
 
 /** 解析用户提供的 GitHub 仓库或 tree/blob URL，不接受镜像站、凭据与自定义端口。 */
-internal object GitHubSkillRepositoryParser {
+object GitHubSkillRepositoryParser {
     fun parse(value: String): GitHubSkillRepository {
         val input = value.trim()
         if (input.isBlank()) invalid("GitHub 仓库不能为空")
@@ -181,7 +181,7 @@ internal object GitHubSkillRepositoryParser {
  * 候选通过 GitHub API tree 发现；安装归档固定到 commit SHA 后从 codeload 下载。客户端不带
  * Token、不跟随重定向，并对 JSON 与 ZIP 响应分别设置硬上限。
  */
-internal class PublicGitHubSkillSource(
+class PublicGitHubSkillSource(
     cacheRoot: File,
     baseClient: OkHttpClient,
 ) : Closeable {
@@ -493,7 +493,7 @@ internal class PublicGitHubSkillSource(
             "GitHub 仓库归档超过 ${MAX_ARCHIVE_BYTES / 1024 / 1024} MiB 上限",
         )
 
-    internal data class DownloadedGitHubArchive(
+    data class DownloadedGitHubArchive(
         val file: File,
         val repository: String,
         val ref: String,

@@ -5,7 +5,7 @@ import org.json.JSONArray
 import org.json.JSONObject
 
 /** 声明持久记忆的有界读取与原子局部更新工具。 */
-internal object AgentMemoryToolCatalog {
+object AgentMemoryToolCatalog {
     fun appendTo(tools: JSONArray, writable: Boolean = true) {
         tools
             .put(

@@ -14,7 +14,7 @@ import org.json.JSONObject
  * 本类只负责协议帧与 HTTP 传输，工具目录来自 [EtaMcpToolCatalog]，
  * 工具执行来自 [EtaMcpToolExecutor]，不改动任何现有工具/执行器/schema 实现。
  */
-internal class EtaMcpServer(
+class EtaMcpServer(
     private val port: Int,
     private val token: String?,
     context: Context,

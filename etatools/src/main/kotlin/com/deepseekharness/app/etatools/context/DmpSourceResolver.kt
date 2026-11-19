@@ -2,19 +2,19 @@ package com.deepseekharness.app.etatools.context
 
 import java.util.concurrent.ConcurrentHashMap
 
-internal data class ResolvedPersonalContextSource(
+data class ResolvedPersonalContextSource(
     val source: PersonalContextSource,
     val columns: Map<String, String>,
     val unavailableFields: Set<String>,
 )
 
-internal sealed interface DmpSourceResolution {
+sealed interface DmpSourceResolution {
     data class Available(val value: ResolvedPersonalContextSource) : DmpSourceResolution
     data class Unavailable(val code: String) : DmpSourceResolution
 }
 
 /** 缓存只属于当前工具执行器；字段探测不读取个人记录，也不移除缺失的保护条件。 */
-internal class DmpSourceResolver(private val transport: DmpQueryTransport) {
+class DmpSourceResolver(private val transport: DmpQueryTransport) {
     private val resolved = ConcurrentHashMap<String, ResolvedPersonalContextSource>()
 
     fun resolve(source: PersonalContextSource, refresh: Boolean = false): DmpSourceResolution {

@@ -26,7 +26,7 @@ data class ElementObservation(
     val maxNodes: Int,
     val truncated: Boolean,
     val treeSignature: String = "",
-    internal val accessibilitySnapshot: NodeSnapshot? = null,
+    val accessibilitySnapshot: NodeSnapshot? = null,
 )
 
 enum class ElementSource(val wireName: String) {

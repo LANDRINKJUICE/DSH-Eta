@@ -11,7 +11,7 @@ import com.deepseekharness.app.etatools.tool.DeviceMutationResult
 import org.json.JSONObject
 
 /** 应用进程拥有灯光连接，不能随一次工具调用销毁，否则系统会立即熄灯。 */
-internal class FlashlightController private constructor(context: Context) {
+class FlashlightController private constructor(context: Context) {
     private val manager = context.applicationContext.getSystemService(CameraManager::class.java)
     @Suppress("PLATFORM_CLASS_MAPPED_TO_KOTLIN")
     private val monitor = Object()

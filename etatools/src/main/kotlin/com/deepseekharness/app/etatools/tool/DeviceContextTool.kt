@@ -13,13 +13,13 @@ import kotlin.math.roundToInt
 import org.json.JSONObject
 
 /** 按需提供手机当前采用的时间环境与最近系统位置。 */
-internal object DeviceContextTool {
+object DeviceContextTool {
     fun current(
         context: Context,
         clock: Clock = Clock.systemDefaultZone(),
     ): String = current(clock, DeviceLocationProvider.latest(context))
 
-    internal fun current(
+    fun current(
         clock: Clock,
         location: DeviceLocationProvider.Result,
     ): String {

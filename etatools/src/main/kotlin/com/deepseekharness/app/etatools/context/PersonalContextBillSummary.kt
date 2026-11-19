@@ -6,7 +6,7 @@ import org.json.JSONArray
 import org.json.JSONObject
 
 /** 汇总完整的有界查询结果；金额保持十进制精度，不推断退款、冲正或重复账单。 */
-internal object PersonalContextBillSummary {
+object PersonalContextBillSummary {
     const val MAX_RECORDS = 1_000
     private const val MAX_CATEGORIES = 20
     private val maximumAmount = BigDecimal("1000000000000000000")

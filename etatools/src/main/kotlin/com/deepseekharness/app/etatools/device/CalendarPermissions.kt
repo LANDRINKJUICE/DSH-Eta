@@ -4,7 +4,7 @@ import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
 
-internal object CalendarPermissions {
+object CalendarPermissions {
     val requested = arrayOf(Manifest.permission.READ_CALENDAR, Manifest.permission.WRITE_CALENDAR)
 
     fun granted(context: Context, write: Boolean): Boolean =

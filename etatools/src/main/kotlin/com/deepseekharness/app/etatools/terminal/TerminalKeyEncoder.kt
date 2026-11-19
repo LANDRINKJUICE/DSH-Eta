@@ -1,14 +1,14 @@
 package com.deepseekharness.app.etatools.terminal
 
 /** 控制台可发送的非文本按键；文本输入走 [TerminalKeyEncoder.text]。 */
-internal enum class TerminalKey {
+enum class TerminalKey {
     ENTER, TAB, BACKSPACE, ESCAPE,
     UP, DOWN, LEFT, RIGHT,
     HOME, END, PAGE_UP, PAGE_DOWN, INSERT, DELETE,
     F1, F2, F3, F4, F5, F6, F7, F8, F9, F10, F11, F12,
 }
 
-internal data class TerminalModifiers(
+data class TerminalModifiers(
     val ctrl: Boolean = false,
     val alt: Boolean = false,
     val shift: Boolean = false,
@@ -28,7 +28,7 @@ internal data class TerminalModifiers(
  * 按键到终端字节的 xterm 编码。光标键是否使用 SS3 取决于程序是否开启 DECCKM，
  * 由调用方从当前会话的屏幕缓冲区读取；编码本身不持有会话状态。
  */
-internal object TerminalKeyEncoder {
+object TerminalKeyEncoder {
     private const val ESC = "\u001B"
 
     fun key(

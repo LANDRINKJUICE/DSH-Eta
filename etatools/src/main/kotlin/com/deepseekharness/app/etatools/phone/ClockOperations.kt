@@ -6,7 +6,7 @@ import org.json.JSONArray
 import org.json.JSONObject
 
 /** 时钟业务接口保留调度副作用，不能用直接改库代替。 */
-internal class ClockOperations(
+class ClockOperations(
     private val resolver: PhoneProviderAccess,
     userId: Int,
     private val onMutation: () -> Unit = {},

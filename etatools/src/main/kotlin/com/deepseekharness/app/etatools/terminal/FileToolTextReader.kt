@@ -5,14 +5,14 @@ import java.nio.CharBuffer
 import java.nio.charset.CharsetDecoder
 import java.nio.charset.CodingErrorAction
 
-internal data class FileToolTextChunk(
+data class FileToolTextChunk(
     val text: String,
     val bytesConsumed: Int,
     val eof: Boolean,
 )
 
 /** 字节游标只能越过已完整解码并输出成文本的字符，不把解码器内部暂存的半个 UTF-8 字符记为已读。 */
-internal class FileToolTextReader(
+class FileToolTextReader(
     private val backend: FileToolBackend,
     private val decoderFactory: () -> CharsetDecoder = {
         Charsets.UTF_8.newDecoder()

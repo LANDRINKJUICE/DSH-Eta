@@ -15,7 +15,7 @@ import java.nio.charset.CodingErrorAction
  * 终端查询（DSR/CPR、DA、DECRQM、窗口尺寸、OSC 10/11 默认颜色）的应答由 [drainResponses] 取出，调用方回写 stdin；
  * 不应答的程序会在启动时等待超时，部分 CLI 直接因读不到光标位置而退出。
  */
-internal class TerminalScreenBuffer(
+class TerminalScreenBuffer(
     cols: Int,
     rows: Int,
     private val maxScrollback: Int = 500,
@@ -41,7 +41,7 @@ internal class TerminalScreenBuffer(
      * 界面不能直接持有 [Line]：原地改写的行对象身份不变，组合层会把它当作未变化而跳过重绘，
      * 程序整屏重画后旧内容仍留在屏幕上；绘制线程读取可变单元格也会与 PTY 线程的写入交错。
      */
-    class RenderLine internal constructor(val id: Long, val version: Long, val cells: List<Cell>) {
+    class RenderLine constructor(val id: Long, val version: Long, val cells: List<Cell>) {
         override fun equals(other: Any?): Boolean =
             other is RenderLine && other.id == id && other.version == version
 
@@ -49,22 +49,22 @@ internal class TerminalScreenBuffer(
     }
 
     /** 一行网格；对象身份稳定，向界面发布时转换为 [RenderLine]。 */
-    class Line internal constructor(val id: Long, width: Int) {
-        internal var cells = Array(width) { Cell() }
+    class Line constructor(val id: Long, width: Int) {
+        var cells = Array(width) { Cell() }
         var version = 0L
-            internal set
+            set
 
-        internal fun set(index: Int, cell: Cell) {
+        fun set(index: Int, cell: Cell) {
             cells[index] = cell
             version++
         }
 
-        internal fun fill(cell: Cell) {
+        fun fill(cell: Cell) {
             cells.fill(cell)
             version++
         }
 
-        internal fun resize(width: Int) {
+        fun resize(width: Int) {
             if (width == cells.size) return
             val previous = cells
             cells = Array(width) { index -> previous.getOrNull(index) ?: Cell() }
@@ -73,14 +73,14 @@ internal class TerminalScreenBuffer(
             version++
         }
 
-        internal fun isBlank(): Boolean = cells.all { (it.text == " " || it.text.isEmpty()) && it.style.bg == null }
+        fun isBlank(): Boolean = cells.all { (it.text == " " || it.text.isEmpty()) && it.style.bg == null }
 
         fun snapshot(): List<Cell> = cells.toList()
 
         private var rendered: RenderLine? = null
 
         /** 版本未变时复用上一次的快照，每帧只为真正改动过的行复制单元格。 */
-        internal fun render(): RenderLine =
+        fun render(): RenderLine =
             rendered?.takeIf { it.version == version } ?: RenderLine(id, version, cells.toList()).also { rendered = it }
     }
 

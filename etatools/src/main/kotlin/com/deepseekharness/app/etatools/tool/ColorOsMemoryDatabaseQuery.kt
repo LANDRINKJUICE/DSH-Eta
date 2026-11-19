@@ -8,16 +8,16 @@ import java.nio.charset.StandardCharsets
 import org.json.JSONArray
 import org.json.JSONObject
 
-internal fun quoteColorOsMemoryIdentifier(value: String): String =
+fun quoteColorOsMemoryIdentifier(value: String): String =
     "\"" + value.replace("\"", "\"\"") + "\""
 
 /** 只接受查询调用，兼容宿主的加密数据库连接和普通 SQLite 快照。 */
-internal fun interface ColorOsMemoryReadDatabase {
+fun interface ColorOsMemoryReadDatabase {
     fun rawQuery(sql: String, selectionArgs: Array<String>?): Cursor
 }
 
 /** Runtime 快照和小布进程 Hook 共用固定查询，不暴露任意 SQL 入口。 */
-internal object ColorOsMemoryDatabaseQuery {
+object ColorOsMemoryDatabaseQuery {
     fun execute(database: SQLiteDatabase, operation: String, args: JSONObject): String =
         execute(ColorOsMemoryReadDatabase(database::rawQuery), operation, args)
 

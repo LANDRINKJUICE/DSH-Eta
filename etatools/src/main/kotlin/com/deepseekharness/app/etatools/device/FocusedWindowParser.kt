@@ -1,7 +1,7 @@
 package com.deepseekharness.app.etatools.device
 
 /** 从 dumpsys window 中提取精确前台包，避免 `contains` 把相似包名判成同一 App。 */
-internal object FocusedWindowParser {
+object FocusedWindowParser {
     data class Result(
         val packageName: String,
         val component: String,

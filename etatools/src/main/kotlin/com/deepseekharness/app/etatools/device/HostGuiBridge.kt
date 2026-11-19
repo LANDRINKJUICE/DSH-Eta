@@ -3,7 +3,7 @@ package com.deepseekharness.app.etatools.device
 import android.graphics.Rect
 
 /** 手势触觉反馈的种类，对应宿主实现里的 TAP / LONG_PRESS / SWIPE。 */
-internal enum class HostHaptic { TAP, LONG_PRESS, SWIPE }
+enum class HostHaptic { TAP, LONG_PRESS, SWIPE }
 
 /**
  * GUI 生命周期与视觉/画布副作用的宿主桥。
@@ -14,7 +14,7 @@ internal enum class HostHaptic { TAP, LONG_PRESS, SWIPE }
  *
  * release() 不在此接口内：释放手机操作权由 AgentLocalTools 的 guiRelease lambda 单独承担。
  */
-internal interface HostGuiBridge : AutoCloseable {
+interface HostGuiBridge : AutoCloseable {
     fun isVirtualDisplay(displayId: Int): Boolean
     fun isVirtualDisplayActive(displayId: Int): Boolean
     fun <T> clearOverlay(area: Rect, gesture: () -> T): T

@@ -11,7 +11,7 @@ import org.json.JSONObject
  * 动作后观察的模型投影：先给结论（界面是否变化、是否切换应用或窗口），再给新的节点列表。
  * 变化判定只比较节点的可见语义（文本、描述、类名、view_id、位置），不依赖时间戳或动画帧。
  */
-internal object AgentAfterActionSummary {
+object AgentAfterActionSummary {
     fun build(before: ElementObservation?, observation: Observation): JSONObject {
         val metadata = JSONObject(observation.content)
         val after = observation.elementObservation

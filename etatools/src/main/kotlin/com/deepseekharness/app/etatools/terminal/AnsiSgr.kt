@@ -4,7 +4,7 @@ package com.deepseekharness.app.etatools.terminal
  * 终端单元格样式的中性表示：颜色为 0xAARRGGBB 的 Long，不依赖 Compose。
  * 块式输出渲染（ui 层）与控制台屏幕缓冲区共用同一份 SGR 解释，避免两套调色板漂移。
  */
-internal data class SgrStyle(
+data class SgrStyle(
     val fg: Long? = null,
     val bg: Long? = null,
     val bold: Boolean = false,
@@ -24,7 +24,7 @@ internal data class SgrStyle(
 }
 
 /** SGR 参数序列解释器；[params] 为 CSI 与结尾 m 之间的原文（空串等价于 0）。 */
-internal object AnsiSgr {
+object AnsiSgr {
 
     /**
      * 参数以 ; 分组、组内以 : 分隔子参数（ITU T.416），两种扩展颜色写法都要识别：

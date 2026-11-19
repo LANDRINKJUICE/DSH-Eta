@@ -2,7 +2,7 @@ package com.deepseekharness.app.etatools.tool
 
 import com.deepseekharness.app.etatools.context.PersonalSearchTools
 
-internal object ToolSwitchIds {
+object ToolSwitchIds {
     fun canonicalToolSwitchId(toolName: String): String = when (toolName) {
         "tap" -> "tap_area"
         "long_press_element" -> "long_press"

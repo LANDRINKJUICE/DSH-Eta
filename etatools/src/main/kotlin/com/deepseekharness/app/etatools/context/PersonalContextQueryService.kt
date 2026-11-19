@@ -4,7 +4,7 @@ import java.time.Instant
 import org.json.JSONArray
 import org.json.JSONObject
 
-internal class PersonalContextQueryService(
+class PersonalContextQueryService(
     private val transport: DmpQueryTransport,
     private val now: () -> Instant = Instant::now,
 ) {

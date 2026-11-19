@@ -4,7 +4,7 @@ import com.deepseekharness.app.etatools.context.PersonalSearchTools
 import org.json.JSONArray
 import org.json.JSONObject
 
-internal object AgentPersonalSearchToolCatalog {
+object AgentPersonalSearchToolCatalog {
     fun appendTo(tools: JSONArray) {
         PersonalSearchTools.searches.forEach { spec ->
             tools.put(

@@ -8,7 +8,7 @@ import org.json.JSONArray
 import org.json.JSONObject
 
 /** 仅在用户授予通知访问后保存有限期通知，内容不进入 Agent 会话持久记录。 */
-internal class NotificationHistoryRepository(context: Context) {
+class NotificationHistoryRepository(context: Context) {
     private val database = Database(context.applicationContext)
 
     fun record(

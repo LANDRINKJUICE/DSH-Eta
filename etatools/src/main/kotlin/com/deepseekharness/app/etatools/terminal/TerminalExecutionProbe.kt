@@ -5,7 +5,7 @@ import org.json.JSONArray
 import org.json.JSONObject
 
 /** 在实际命令 Shell 内采样；结果仅描述该进程，不作为后续调用的授权凭据。 */
-internal object TerminalExecutionProbe {
+object TerminalExecutionProbe {
     private val commands = listOf("sh", "toybox", "busybox", "cmd", "am", "pm", "dumpsys", "settings", "rg", "grep", "find", "python3")
 
     fun marker(): String = "__ETA_RUNTIME_${UUID.randomUUID().toString().replace("-", "")}"

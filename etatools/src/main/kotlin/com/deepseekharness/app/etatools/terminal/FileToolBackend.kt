@@ -1,7 +1,7 @@
 package com.deepseekharness.app.etatools.terminal
 
 /** revision 是后端生成的不透明值，只在同一后端内比较；目录内容变化必须使其失效。 */
-internal data class FileToolStat(
+data class FileToolStat(
     val path: String,
     val name: String,
     val kind: FileToolKind,
@@ -9,26 +9,26 @@ internal data class FileToolStat(
     val revision: String,
 )
 
-internal enum class FileToolKind(val wireName: String) {
+enum class FileToolKind(val wireName: String) {
     FILE("file"), DIRECTORY("directory"), SYMLINK("symlink"), OTHER("other"),
 }
 
-internal data class FileToolDirectoryPage(
+data class FileToolDirectoryPage(
     val entries: List<FileToolStat>,
     val nextOffset: Int,
     val hasMore: Boolean,
     val revision: String,
 )
 
-internal data class FileToolWriteResult(
+data class FileToolWriteResult(
     val stat: FileToolStat,
     val atomic: Boolean,
 )
 
-internal class FileToolException(val code: String, message: String) : Exception(message)
+class FileToolException(val code: String, message: String) : Exception(message)
 
 /** 参数中的路径均属于后端自身的命名空间；实现必须在每次操作时重新检查访问边界。 */
-internal interface FileToolBackend {
+interface FileToolBackend {
     val environment: String
     val identity: String
     fun checkActive() = Unit

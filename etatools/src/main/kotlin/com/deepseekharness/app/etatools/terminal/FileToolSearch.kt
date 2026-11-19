@@ -7,7 +7,7 @@ import org.json.JSONArray
 import org.json.JSONObject
 
 /** 游标保留有限深度的目录栈和当前文本位置；每轮只扫描有界条目与字节。 */
-internal class FileToolSearch(
+class FileToolSearch(
     private val backend: FileToolBackend,
     private val nanoTime: () -> Long = System::nanoTime,
     private val softTimeLimitNanos: Long = 5_000_000_000L,

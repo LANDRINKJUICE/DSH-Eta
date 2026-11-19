@@ -8,7 +8,7 @@ import java.security.MessageDigest
 import org.json.JSONArray
 import org.json.JSONObject
 
-internal class AgentFileOperations(
+class AgentFileOperations(
     private val backend: FileToolBackend,
     private val textReader: FileToolTextReader = FileToolTextReader(backend),
 ) {
@@ -210,10 +210,10 @@ internal class AgentFileOperations(
     }
 }
 
-internal fun FileToolStat.toJson(): JSONObject = JSONObject().put("path", path).put("name", name)
+fun FileToolStat.toJson(): JSONObject = JSONObject().put("path", path).put("name", name)
     .put("kind", kind.wireName).put("size_bytes", sizeBytes).put("revision", revision)
 
-internal inline fun fileToolOperation(tool: String, block: () -> JSONObject): String = try {
+inline fun fileToolOperation(tool: String, block: () -> JSONObject): String = try {
     block().toString()
 } catch (error: FileToolException) {
     JSONObject().put("ok", false).put("tool", tool).put("code", error.code).put("message", error.message).toString()

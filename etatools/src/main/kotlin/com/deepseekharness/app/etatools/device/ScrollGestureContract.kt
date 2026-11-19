@@ -3,7 +3,7 @@ package com.deepseekharness.app.etatools.device
 import android.graphics.Rect
 import kotlin.math.roundToInt
 
-internal enum class ScrollAxis {
+enum class ScrollAxis {
     HORIZONTAL,
     VERTICAL,
 }
@@ -12,7 +12,7 @@ internal enum class ScrollAxis {
  * 滚动幅度。系统滚动动作固定翻约一屏，不接受距离参数；SMALL 因此只走手势，
  * 用目标区域约四分之一的位移露出少量内容，适合微调到某一项。
  */
-internal enum class ScrollAmount(val nearFraction: Float, val farFraction: Float) {
+enum class ScrollAmount(val nearFraction: Float, val farFraction: Float) {
     SMALL(0.38f, 0.62f),
     PAGE(0.2f, 0.8f),
     ;
@@ -26,7 +26,7 @@ internal enum class ScrollAmount(val nearFraction: Float, val farFraction: Float
 /**
  * 滚动方向表示希望显示的新内容所在方向，而不是手指移动方向。
  */
-internal enum class ScrollDirection(
+enum class ScrollDirection(
     val axis: ScrollAxis,
     val scrollDeltaSign: Int,
 ) {
@@ -84,12 +84,12 @@ internal enum class ScrollDirection(
     }
 }
 
-internal data class ScrollPoint(
+data class ScrollPoint(
     val x: Int,
     val y: Int,
 )
 
-internal data class ScrollGesture(
+data class ScrollGesture(
     val start: ScrollPoint,
     val end: ScrollPoint,
 )

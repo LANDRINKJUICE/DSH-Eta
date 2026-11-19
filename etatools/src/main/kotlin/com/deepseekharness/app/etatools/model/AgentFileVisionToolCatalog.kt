@@ -4,7 +4,7 @@ import org.json.JSONArray
 import org.json.JSONObject
 
 /** 文件路径到模型视觉输入的通用能力，不依赖任何个人数据 Provider。 */
-internal object AgentFileVisionToolCatalog {
+object AgentFileVisionToolCatalog {
     fun appendTo(tools: JSONArray) {
         tools.put(
             AgentToolSchema.function(

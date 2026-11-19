@@ -7,7 +7,7 @@ import com.deepseekharness.app.etatools.context.PersonalSearchTools
  *
  * 这是 Eta 的纯策略类型，只依赖两个已迁入的目录对象，不含任何宿主/运行时依赖。
  */
-internal object AgentSensitiveToolPolicy {
+object AgentSensitiveToolPolicy {
     fun isSensitive(toolName: String): Boolean =
         toolName.startsWith("mcp_") || toolName in sensitiveTools ||
             toolName in PersonalSearchTools.names || toolName in AgentPhoneToolCatalog.names

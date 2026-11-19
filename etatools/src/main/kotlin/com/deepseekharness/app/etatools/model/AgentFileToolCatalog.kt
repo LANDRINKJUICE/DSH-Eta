@@ -4,7 +4,7 @@ import com.deepseekharness.app.etatools.terminal.FileToolLimits
 import org.json.JSONArray
 import org.json.JSONObject
 
-internal object AgentFileToolCatalog {
+object AgentFileToolCatalog {
     val names = setOf("read_file", "write_file", "edit_file", "stat_file", "list_directory", "glob_files", "grep_files")
 
     fun appendTo(tools: JSONArray) {

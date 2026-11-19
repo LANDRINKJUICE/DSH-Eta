@@ -3,7 +3,7 @@ package com.deepseekharness.app.etatools.model
 import org.json.JSONObject
 
 /** 屏幕观察工具在模型 schema、执行器与运行轨迹之间共享的默认合同。 */
-internal object AgentScreenObservationContract {
+object AgentScreenObservationContract {
     const val DEFAULT_INCLUDE_SCREENSHOT = false
     const val DEFAULT_INCLUDE_UI_TREE = true
     const val DEFAULT_MAX_NODES = 60

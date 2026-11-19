@@ -3,7 +3,7 @@ package com.deepseekharness.app.etatools.model
 import org.json.JSONArray
 import org.json.JSONObject
 
-internal object AgentTerminalToolCatalog {
+object AgentTerminalToolCatalog {
     val names = setOf("terminal", "terminal_job", "terminal_daemon")
 
     fun appendTo(tools: JSONArray) {

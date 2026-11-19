@@ -10,7 +10,7 @@ import org.json.JSONTokener
  *
  * 这里保留提交 SHA 和唯一候选路径，避免重试时扩展到仓库的其他版本或 Skill。
  */
-internal data class PendingSkillConflictCapability(
+data class PendingSkillConflictCapability(
     val repository: String,
     val commitSha: String,
     val selectedPath: String,
@@ -18,7 +18,7 @@ internal data class PendingSkillConflictCapability(
     val expectedReplacementName: String,
 )
 
-internal object PendingSkillConflictCapabilityParser {
+object PendingSkillConflictCapabilityParser {
     private const val INSTALL_TOOL_NAME = "skills_install_from_github"
     private val commitShaPattern = Regex("^[0-9a-fA-F]{40,64}$")
 

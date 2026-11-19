@@ -1,6 +1,6 @@
 package com.deepseekharness.app.etatools.device
 
-internal enum class ScrollEvidence {
+enum class ScrollEvidence {
     MOVED_BY_EVENT,
     MOVED_BY_ANCHOR_MOTION,
     DIRECTION_MISMATCH,
@@ -8,12 +8,12 @@ internal enum class ScrollEvidence {
     UNVERIFIED,
 }
 
-internal enum class ScrollMovementSource {
+enum class ScrollMovementSource {
     EVENT,
     ANCHOR_MOTION,
 }
 
-internal object ScrollEvidenceContract {
+object ScrollEvidenceContract {
     fun normalizeAccessibilityDelta(value: Int): Int? =
         value.takeUnless { it == ACCESSIBILITY_UNDEFINED }
 

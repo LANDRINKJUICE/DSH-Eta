@@ -5,7 +5,7 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
 
-internal object LocalNetworkPermission {
+object LocalNetworkPermission {
     enum class AccessState {
         NOT_REQUIRED,
         GRANTED,

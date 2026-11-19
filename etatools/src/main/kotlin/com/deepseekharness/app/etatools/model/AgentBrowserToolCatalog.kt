@@ -3,7 +3,7 @@ package com.deepseekharness.app.etatools.model
 import org.json.JSONArray
 import org.json.JSONObject
 
-internal object AgentBrowserToolCatalog {
+object AgentBrowserToolCatalog {
     fun appendTo(tools: JSONArray) {
         tools.put(
             AgentToolSchema.function(

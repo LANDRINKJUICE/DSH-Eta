@@ -61,7 +61,7 @@ import kotlinx.coroutines.runBlocking
  * open_uri、browser_use、web_search、fetch_url 等宿主特有工具通过可空 lambda 注入，未注入时返回
  * UNSUPPORTED_TOOL。when 分发、参数解析、结果格式与自动补观察逻辑与 Eta 原版保持一致。
  */
-internal class AgentLocalTools(
+class AgentLocalTools(
     private val context: Context,
     private val logger: AgentLogger,
     /** GUI / 设备动作后端，由宿主实现后注入。 */

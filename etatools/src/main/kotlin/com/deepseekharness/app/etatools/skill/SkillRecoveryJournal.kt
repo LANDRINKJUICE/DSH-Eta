@@ -11,7 +11,7 @@ import java.nio.file.LinkOption
 import java.nio.file.StandardCopyOption
 import java.util.UUID
 
-internal data class SkillRecoveryRecord(
+data class SkillRecoveryRecord(
     val id: String,
     val originalTargetExisted: Boolean,
     val backupCompleted: Boolean = false,
@@ -22,7 +22,7 @@ internal data class SkillRecoveryRecord(
     ),
 )
 
-internal data class SkillRegistryRecoverySnapshot(
+data class SkillRegistryRecoverySnapshot(
     val skillId: String,
     val entryExisted: Boolean,
     val enabled: Boolean = false,
@@ -30,12 +30,12 @@ internal data class SkillRegistryRecoverySnapshot(
     val installState: String = "",
 )
 
-internal data class RecoveredSkillOperation(
+data class RecoveredSkillOperation(
     val operationDirectory: File,
     val records: List<SkillRecoveryRecord>,
 )
 
-internal class PendingSkillRecoveryJournal private constructor(
+class PendingSkillRecoveryJournal private constructor(
     private val operationDirectory: File,
     records: List<SkillRecoveryRecord>,
 ) {
@@ -82,13 +82,13 @@ internal class PendingSkillRecoveryJournal private constructor(
     }
 }
 
-internal class SkillRecoveryRequiredException(
+class SkillRecoveryRequiredException(
     message: String,
     cause: Throwable? = null,
 ) : IOException(message, cause)
 
 /** 必须在持有 [SkillMutationLock] 的跨进程锁时调用。 */
-internal fun recoverPendingSkillOperations(
+fun recoverPendingSkillOperations(
     skillsRoot: File,
     directoryMover: SkillDirectoryMover = AtomicSkillDirectoryMover,
 ): List<RecoveredSkillOperation> {
@@ -165,7 +165,7 @@ private fun recoverOperation(
     }
 }
 
-internal fun completeRecoveredSkillOperations(
+fun completeRecoveredSkillOperations(
     skillsRoot: File,
     recovered: List<RecoveredSkillOperation>,
 ) {
@@ -180,7 +180,7 @@ internal fun completeRecoveredSkillOperations(
     }
 }
 
-internal fun createSkillRecoveryOperationDirectory(skillsRoot: File): File {
+fun createSkillRecoveryOperationDirectory(skillsRoot: File): File {
     val workRoot = prepareSkillInstallerWorkRoot(skillsRoot)
     repeat(8) {
         val operation = File(workRoot, "$OPERATION_PREFIX${UUID.randomUUID()}")
@@ -414,7 +414,7 @@ private fun isStrictChild(root: File, target: File): Boolean {
     return targetPath.startsWith(rootPath) && targetPath != rootPath
 }
 
-internal fun skillInstallerWorkRoot(skillsRoot: File): File = File(
+fun skillInstallerWorkRoot(skillsRoot: File): File = File(
     requireNotNull(skillsRoot.canonicalFile.parentFile) { "Skills 目录必须有父目录" },
     ".eta-skill-installer",
 )
@@ -423,7 +423,7 @@ private fun recoveryFailure(message: String): Nothing =
     throw SkillRecoveryRequiredException(message)
 
 private const val JOURNAL_VERSION = 1
-internal const val JOURNAL_FILE_NAME = "pending-install.json"
+const val JOURNAL_FILE_NAME = "pending-install.json"
 private const val BACKUP_DIRECTORY_NAME = "backup"
 private const val RECOVERY_DIRECTORY_NAME = "recovery"
 private const val OPERATION_PREFIX = "operation-"

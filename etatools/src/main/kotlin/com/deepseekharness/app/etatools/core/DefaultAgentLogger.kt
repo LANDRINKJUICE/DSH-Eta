@@ -3,7 +3,7 @@ package com.deepseekharness.app.etatools.core
 import android.util.Log
 
 /** Minimal AgentLogger implementation for the standalone etatools module: framework Log only. */
-internal object DefaultAgentLogger : AgentLogger {
+object DefaultAgentLogger : AgentLogger {
     private const val TAG = "Etatools"
 
     override fun debug(message: () -> String) {

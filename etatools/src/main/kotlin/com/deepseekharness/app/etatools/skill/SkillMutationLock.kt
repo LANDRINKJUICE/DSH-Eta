@@ -15,7 +15,7 @@ import java.nio.file.StandardCopyOption
  * UI 与 Agent Runtime 可能位于不同进程；仅使用 JVM monitor 无法避免两个安装事务同时通过
  * 冲突检查。锁文件位于索引扫描目录之外，线程内同一根目录允许重入。
  */
-internal object SkillMutationLock {
+object SkillMutationLock {
     private val processLock = Any()
     private val heldRoots = ThreadLocal<MutableSet<String>>()
 
@@ -78,7 +78,7 @@ internal object SkillMutationLock {
 }
 
 /** 创建或验证只位于 Skills 同级私有目录中的安装工作区，拒绝 symlink 与特殊文件。 */
-internal fun prepareSkillInstallerWorkRoot(skillsRoot: File): File {
+fun prepareSkillInstallerWorkRoot(skillsRoot: File): File {
     val canonicalRoot = skillsRoot.canonicalFile
     val parent = requireNotNull(canonicalRoot.parentFile) { "Skills 目录必须有父目录" }
     if (!Files.isDirectory(parent.toPath(), LinkOption.NOFOLLOW_LINKS)) {
@@ -105,7 +105,7 @@ internal fun prepareSkillInstallerWorkRoot(skillsRoot: File): File {
 }
 
 /** 替换事务只能接收可完整复制恢复的普通目录树。 */
-internal fun isRecoverableSkillDirectoryTree(skillsRoot: File, target: File): Boolean {
+fun isRecoverableSkillDirectoryTree(skillsRoot: File, target: File): Boolean {
     val canonicalRoot = runCatching { skillsRoot.canonicalFile.toPath() }.getOrNull() ?: return false
     if (Files.isSymbolicLink(target.toPath())) return false
     val canonicalTarget = runCatching { target.canonicalFile.toPath() }.getOrNull() ?: return false
@@ -124,7 +124,7 @@ private fun isRegularDirectoryTreeWithoutLinks(path: Path): Boolean {
     }.getOrDefault(false)
 }
 
-internal fun moveSkillDirectoryAtomically(source: File, target: File) {
+fun moveSkillDirectoryAtomically(source: File, target: File) {
     target.parentFile?.let { parent ->
         if (!parent.mkdirs() && !parent.isDirectory) throw IOException("无法创建目标父目录")
     }
@@ -136,7 +136,7 @@ internal fun moveSkillDirectoryAtomically(source: File, target: File) {
 }
 
 /** 删除 Skills 根目录内的路径，但遇到任意符号链接时只删除链接本身。 */
-internal fun deleteSkillPathWithoutFollowingLinks(skillsRoot: File, target: File): Boolean {
+fun deleteSkillPathWithoutFollowingLinks(skillsRoot: File, target: File): Boolean {
     val lexicalRoot = skillsRoot.absoluteFile.toPath().normalize()
     val lexicalTarget = target.absoluteFile.toPath().normalize()
     if (!lexicalTarget.startsWith(lexicalRoot) || lexicalTarget == lexicalRoot) return false

@@ -9,14 +9,14 @@ import java.nio.file.Files
 import java.nio.file.LinkOption
 
 private const val BUILTIN_SKILL_MANIFEST_ASSET = "builtin_skills/manifest.json"
-internal const val BUILTIN_SKILL_SOURCE = "builtin"
-internal const val USER_SKILL_SOURCE = "user"
+const val BUILTIN_SKILL_SOURCE = "builtin"
+const val USER_SKILL_SOURCE = "user"
 private const val BUILTIN_SOURCE = BUILTIN_SKILL_SOURCE
 private const val USER_SOURCE = USER_SKILL_SOURCE
 private const val INSTALL_STATE_INSTALLED = "installed"
 private const val INSTALL_STATE_REMOVED_BUILTIN = "removed_builtin"
 
-internal fun isSafeBuiltinSkillInstallation(targetDir: File): Boolean {
+fun isSafeBuiltinSkillInstallation(targetDir: File): Boolean {
     val skillFile = File(targetDir, "SKILL.md")
     return !Files.isSymbolicLink(targetDir.toPath()) &&
         !Files.isSymbolicLink(skillFile.toPath()) &&
@@ -152,7 +152,7 @@ class SkillIndexService(
      * 所有可读写索引的入口都先在同一把跨进程锁内完成待处理文件事务与 Room 快照恢复。
      * 仅能读取文件、不具备 registry 恢复能力的 Loader 会由锁实现保持 fail-closed。
      */
-    internal fun <T> withMutationLock(block: () -> T): T = SkillMutationLock.withLock(
+    fun <T> withMutationLock(block: () -> T): T = SkillMutationLock.withLock(
         skillsRoot = skillsRoot,
         recoveryHandler = ::restoreRecoveredRegistry,
         block = block,
@@ -300,7 +300,7 @@ class SkillIndexService(
     }
 
     /** 文件提交成功后，以单次 Room 事务登记用户 Skill，并同步清除索引缓存。 */
-    internal fun registerInstalledUserSkills(skillIds: List<String>) {
+    fun registerInstalledUserSkills(skillIds: List<String>) {
         withMutationLock {
             synchronized(indexLock) {
                 require(skillIds.none { builtinStore.findBuiltin(it) != null }) {
@@ -321,7 +321,7 @@ class SkillIndexService(
     }
 
     /** 在正式目录发生任何移动前，持久化事务涉及 id 的完整旧 registry 状态。 */
-    internal fun captureRegistryRecoverySnapshots(
+    fun captureRegistryRecoverySnapshots(
         skillIds: List<String>,
     ): List<SkillRegistryRecoverySnapshot> = synchronized(indexLock) {
         val registry = registryStore.readStrict()
@@ -342,7 +342,7 @@ class SkillIndexService(
     }
 
     /** 文件恢复完成后，以单次 Room 事务还原全部旧快照；失败时调用方保留 journal。 */
-    internal fun restoreRecoveredRegistry(recovered: List<RecoveredSkillOperation>) {
+    fun restoreRecoveredRegistry(recovered: List<RecoveredSkillOperation>) {
         if (recovered.isEmpty()) return
         synchronized(indexLock) {
             val registry = registryStore.readStrict()
@@ -363,7 +363,7 @@ class SkillIndexService(
         }
     }
 
-    internal fun isBuiltinSkillId(skillId: String): Boolean =
+    fun isBuiltinSkillId(skillId: String): Boolean =
         synchronized(indexLock) { builtinStore.findBuiltin(skillId) != null }
 
     private fun seedBuiltinSkillsLocked() {

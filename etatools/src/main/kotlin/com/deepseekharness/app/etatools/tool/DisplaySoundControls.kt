@@ -10,7 +10,7 @@ import com.deepseekharness.app.etatools.phone.PhoneOperation
 import kotlin.math.abs
 import org.json.JSONObject
 
-internal class DisplaySoundControls(
+class DisplaySoundControls(
     private val context: Context,
     private val execute: (String) -> BoundedRootCommandExecutor.Result,
 ) {

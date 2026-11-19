@@ -9,7 +9,7 @@ import org.json.JSONArray
 import org.json.JSONObject
 
 /** 包详情通过当前用户的 PackageManager 读取，权限列表单独分页。 */
-internal class AppInspectionTool(private val context: Context) {
+class AppInspectionTool(private val context: Context) {
     fun inspect(args: JSONObject): JSONObject {
         val userId = DeviceToolContract.appUserId(context)
         DeviceToolContract.userScopeError(args, userId)?.let { return it }

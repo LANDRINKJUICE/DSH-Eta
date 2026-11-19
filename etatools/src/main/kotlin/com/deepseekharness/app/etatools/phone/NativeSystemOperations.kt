@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicReference
 import org.json.JSONObject
 
-internal class NativeSystemOperations(
+class NativeSystemOperations(
     private val context: Context,
     private val userId: Int,
     private val onMutation: () -> Unit,

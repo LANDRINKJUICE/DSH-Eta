@@ -17,11 +17,11 @@ import java.io.InputStream
 import kotlin.math.min
 import kotlin.math.sqrt
 
-internal const val MAX_AGENT_IMAGE_BYTES = 12 * 1024 * 1024
-internal const val CHAT_PREVIEW_MAX_LONG_EDGE = 1_920
+const val MAX_AGENT_IMAGE_BYTES = 12 * 1024 * 1024
+const val CHAT_PREVIEW_MAX_LONG_EDGE = 1_920
 
 /** 仅负责为工具截图和聊天预览生成独立的图片副本。 */
-internal object AgentModelImageEncoder {
+object AgentModelImageEncoder {
     private const val MODEL_JPEG_QUALITY = 95
     private const val PREVIEW_JPEG_QUALITY = 88
 
@@ -305,7 +305,7 @@ internal object AgentModelImageEncoder {
     }
 }
 
-internal fun String.normalizedAgentImageMimeType(): String =
+fun String.normalizedAgentImageMimeType(): String =
     substringBefore(';')
         .trim()
         .takeIf {
@@ -314,7 +314,7 @@ internal fun String.normalizedAgentImageMimeType(): String =
         }
         ?: "image/jpeg"
 
-internal fun ByteArray.hasSupportedImageMagic(): Boolean {
+fun ByteArray.hasSupportedImageMagic(): Boolean {
     if (size < 8) return false
     if (this[0] == 0xFF.toByte() && this[1] == 0xD8.toByte()) return true
     if (

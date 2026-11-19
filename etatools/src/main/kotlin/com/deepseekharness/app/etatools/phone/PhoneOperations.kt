@@ -3,7 +3,7 @@ package com.deepseekharness.app.etatools.phone
 import android.content.Context
 import org.json.JSONObject
 
-internal object PhoneOperations {
+object PhoneOperations {
     fun execute(
         context: Context,
         tool: String,

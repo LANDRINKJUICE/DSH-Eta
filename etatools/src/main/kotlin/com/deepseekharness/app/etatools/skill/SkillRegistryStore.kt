@@ -25,7 +25,7 @@ private const val JSON_SOURCE = "source"
 private const val JSON_INSTALL_STATE = "installState"
 
 /** 注册表中的技能状态记录。 */
-internal data class SkillRegistryEntry(
+data class SkillRegistryEntry(
     val enabled: Boolean = true,
     val source: String = DEFAULT_SOURCE,
     val installState: String = DEFAULT_INSTALL_STATE,
@@ -45,7 +45,7 @@ internal data class SkillRegistryEntry(
  *
  * 另提供 [load]/[list]/[upsert]/[replaceAll]/[delete] 等价命名，便于不沿用旧 DAO 语义的调用方。
  */
-internal class SkillRegistryStore(
+class SkillRegistryStore(
     context: Context,
 ) {
     private val appContext = context.applicationContext

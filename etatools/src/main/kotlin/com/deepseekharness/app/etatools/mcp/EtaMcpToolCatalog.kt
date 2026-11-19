@@ -11,7 +11,7 @@ import org.json.JSONObject
  * 只做"OpenAI function 描述 -> MCP tool 描述"的字段搬运，不引入任何新的工具，
  * 也不修改 [AgentToolCatalog] 或 [AgentToolCapabilities] 的实现。
  */
-internal object EtaMcpToolCatalog {
+object EtaMcpToolCatalog {
     /** 返回 MCP 工具数组，每个元素形如：
      * `{"name":...,"description":...,"inputSchema":{...},"annotations":{"title":...}}`
      */

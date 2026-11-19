@@ -3,7 +3,7 @@ package com.deepseekharness.app.etatools.device
 import kotlin.math.abs
 
 /** 把屏幕节点位移转换成滚动位置位移；内容移动方向与滚动位置方向相反。 */
-internal object RootScrollMotionContract {
+object RootScrollMotionContract {
     fun inferScrollDelta(
         contentAxisDeltas: List<Int>,
         minimumMotionPx: Int = 2,

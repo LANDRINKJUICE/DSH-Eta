@@ -1,6 +1,6 @@
 package com.deepseekharness.app.etatools.core
 
-internal interface AgentLogger {
+interface AgentLogger {
     /**
      * 记录仅用于开发期诊断的信息。
      *

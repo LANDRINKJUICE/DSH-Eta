@@ -14,7 +14,7 @@ import java.util.concurrent.atomic.AtomicBoolean
  *
  * 输出在读取时即截断，但仍持续排空管道，避免子进程因缓冲区写满而挂起。
  */
-internal class BoundedRootCommandExecutor(
+class BoundedRootCommandExecutor(
     private val logger: AgentLogger,
     private val rootAvailable: () -> Boolean = { RootAccess.isGranted },
 ) : AutoCloseable {

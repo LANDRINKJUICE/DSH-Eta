@@ -7,17 +7,17 @@ import java.time.OffsetDateTime
 import java.time.format.DateTimeFormatter
 import org.json.JSONObject
 
-internal class PersonalContextArgumentException(message: String) : IllegalArgumentException(message) {
+class PersonalContextArgumentException(message: String) : IllegalArgumentException(message) {
     val code: String = "INVALID_ARGUMENT"
 }
 
-internal enum class PersonalContextAction(val wireName: String) {
+enum class PersonalContextAction(val wireName: String) {
     SOURCES("sources"), SEARCH("search"), READ("read"), COUNT("count"), BILL_SUMMARY("bill_summary");
 }
 
-internal enum class PersonalContextSort(val wireName: String) { NEWEST("newest"), OLDEST("oldest") }
+enum class PersonalContextSort(val wireName: String) { NEWEST("newest"), OLDEST("oldest") }
 
-internal data class PersonalContextRequest(
+data class PersonalContextRequest(
     val action: PersonalContextAction,
     val source: PersonalContextSource?,
     val query: String? = null,

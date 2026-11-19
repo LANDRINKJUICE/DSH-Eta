@@ -8,7 +8,7 @@ import org.json.JSONArray
 import org.json.JSONObject
 
 /** 日志是环形缓冲区中的有界样本，返回范围不能被理解成设备全部历史。 */
-internal class LogcatQuery(
+class LogcatQuery(
     private val executeRoot: (String) -> BoundedRootCommandExecutor.Result,
 ) {
     fun execute(args: JSONObject): JSONObject {

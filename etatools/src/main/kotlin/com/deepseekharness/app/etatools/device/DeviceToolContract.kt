@@ -4,7 +4,7 @@ import android.content.Context
 import org.json.JSONObject
 
 /** 结构化设备工具只操作 Eta 所属用户，不能把前台用户误当成调用方用户。 */
-internal object DeviceToolContract {
+object DeviceToolContract {
     // Android UID 的用户段宽度由系统 UserHandle 定义；公开 SDK 不提供数值 userId 的读取接口。
     fun appUserId(context: Context): Int = context.applicationInfo.uid / 100_000
 

@@ -1,6 +1,6 @@
 package com.deepseekharness.app.etatools.memory
 
-internal data class AgentMemoryContext(
+data class AgentMemoryContext(
     val enabled: Boolean,
     val revision: String,
     val byteSize: Int,
@@ -22,7 +22,7 @@ internal data class AgentMemoryContext(
     }
 }
 
-internal object AgentMemoryContextBuilder {
+object AgentMemoryContextBuilder {
     fun empty(contextWindow: Int?): AgentMemoryContext = build(
         snapshot = AgentMemorySnapshot(
             content = "",

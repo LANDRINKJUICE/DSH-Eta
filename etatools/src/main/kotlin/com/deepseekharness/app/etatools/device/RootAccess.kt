@@ -17,9 +17,9 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.runInterruptible
 import kotlinx.coroutines.withTimeoutOrNull
 
-internal enum class RootAccessStatus { UNKNOWN, UNAVAILABLE, NOT_GRANTED, GRANTED, DENIED, TIMED_OUT }
+enum class RootAccessStatus { UNKNOWN, UNAVAILABLE, NOT_GRANTED, GRANTED, DENIED, TIMED_OUT }
 
-internal data class RootAccessState(
+data class RootAccessState(
     val status: RootAccessStatus = RootAccessStatus.UNKNOWN,
     val suPresent: Boolean = false,
     val isChecking: Boolean = false,
@@ -28,7 +28,7 @@ internal data class RootAccessState(
 }
 
 /** Root 探测归 App 进程所有；读取能力不会执行 su 或弹出授权。 */
-internal object RootAccess {
+object RootAccess {
     private const val PREFERENCES = "eta_root_access"
     private const val AUTOMATIC_REQUEST_ATTEMPTED = "automatic_request_attempted"
     private const val LAST_GRANTED = "last_granted"
@@ -162,10 +162,10 @@ internal object RootAccess {
         .any { path -> File(path, "su").let { it.isFile && it.canExecute() } }
 }
 
-internal fun shouldRequestRoot(explicit: Boolean, attempted: Boolean, wasGranted: Boolean): Boolean =
+fun shouldRequestRoot(explicit: Boolean, attempted: Boolean, wasGranted: Boolean): Boolean =
     explicit || !attempted || wasGranted
 
-internal fun shouldAutoRetryOnUse(
+fun shouldAutoRetryOnUse(
     status: RootAccessStatus,
     wasGranted: Boolean,
     elapsedSinceLastRetryMs: Long,
@@ -175,7 +175,7 @@ internal fun shouldAutoRetryOnUse(
     status != RootAccessStatus.DENIED &&
     elapsedSinceLastRetryMs >= cooldownMs
 
-internal fun classifyRootProbeOutcome(
+fun classifyRootProbeOutcome(
     wasGranted: Boolean,
     result: BoundedRootCommandExecutor.Result,
 ): Pair<RootAccessStatus, Boolean> {

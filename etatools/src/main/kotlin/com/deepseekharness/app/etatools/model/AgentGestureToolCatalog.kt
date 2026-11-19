@@ -4,7 +4,7 @@ import org.json.JSONArray
 import org.json.JSONObject
 
 /** 屏幕手势与节点交互工具 schema。 */
-internal object AgentGestureToolCatalog {
+object AgentGestureToolCatalog {
     fun appendTo(tools: JSONArray) {
         tools
             .put(

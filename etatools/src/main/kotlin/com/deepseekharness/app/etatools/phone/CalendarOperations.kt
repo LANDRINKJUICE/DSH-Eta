@@ -10,7 +10,7 @@ import org.json.JSONArray
 import org.json.JSONObject
 
 /** 日程与提醒共用 Provider 事务；写入目标始终是原始事件 ID，而非搜索索引 ID。 */
-internal class CalendarOperations(
+class CalendarOperations(
     private val context: Context,
     private val userId: Int? = null,
     private val onMutation: () -> Unit = {},

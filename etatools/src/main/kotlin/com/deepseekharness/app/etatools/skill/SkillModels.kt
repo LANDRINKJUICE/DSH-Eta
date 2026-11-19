@@ -51,7 +51,7 @@ data class SkillContext(
 }
 
 /** SKILL.md 文件解析结果。 */
-internal data class ParsedSkillFile(
+data class ParsedSkillFile(
     val frontmatter: Map<String, String>,
     val body: String,
 )

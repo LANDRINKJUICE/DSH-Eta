@@ -16,7 +16,7 @@ import java.lang.reflect.InvocationTargetException
 import java.util.concurrent.atomic.AtomicBoolean
 
 /** 业务层共用同一 Provider 合同；普通授权与 Root 只在连接方式上不同。 */
-internal interface PhoneProviderAccess {
+interface PhoneProviderAccess {
     val callerPackage: String
 
     fun query(
@@ -39,7 +39,7 @@ internal interface PhoneProviderAccess {
     ): Array<ContentProviderResult>
 }
 
-internal class AppPhoneProviderAccess(
+class AppPhoneProviderAccess(
     private val resolver: ContentResolver,
     override val callerPackage: String,
 ) : PhoneProviderAccess {
@@ -64,7 +64,7 @@ internal class AppPhoneProviderAccess(
 }
 
 /** app_process 不注册 App 的 ApplicationThread，必须持有显式的外部 Provider 引用。 */
-internal class RootPhoneProviderAccess(private val userId: Int) : PhoneProviderAccess {
+class RootPhoneProviderAccess(private val userId: Int) : PhoneProviderAccess {
     override val callerPackage = "root"
     private val attribution =
         AttributionSource.Builder(Process.myUid()).setPackageName(callerPackage).build()

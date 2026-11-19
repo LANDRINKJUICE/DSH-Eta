@@ -19,7 +19,7 @@ import com.deepseekharness.app.etatools.data.NotificationHistoryRepository
 import org.json.JSONArray
 import org.json.JSONObject
 
-internal class AgentPersonalContextTools(
+class AgentPersonalContextTools(
     private val context: Context,
     private val notificationAccess: NotificationAccess? = null,
 ) {
@@ -167,7 +167,7 @@ internal class AgentPersonalContextTools(
     companion object {
         const val HOUR_MS = 60L * 60 * 1_000
 
-        internal fun hasUsageAccess(context: Context): Boolean {
+        fun hasUsageAccess(context: Context): Boolean {
             val appOps = context.getSystemService(AppOpsManager::class.java) ?: return false
             return appOps.checkOpNoThrow(
                 AppOpsManager.OPSTR_GET_USAGE_STATS,

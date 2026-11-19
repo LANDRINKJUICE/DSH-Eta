@@ -7,12 +7,12 @@ import com.deepseekharness.app.etatools.model.AgentFileToolCatalog
 import com.deepseekharness.app.etatools.model.AgentPhoneToolCatalog
 import com.deepseekharness.app.etatools.context.PersonalSearchTools
 
-internal enum class RootRequirement { NONE, PARTIAL, REQUIRED }
-internal enum class LsposedRequirement { NONE, OPTIONAL, REQUIRED }
+enum class RootRequirement { NONE, PARTIAL, REQUIRED }
+enum class LsposedRequirement { NONE, OPTIONAL, REQUIRED }
 
-internal enum class ToolSystemAccess { NONE, NOTIFICATIONS, USAGE, LOCATION, CALENDAR_READ, CALENDAR_WRITE }
+enum class ToolSystemAccess { NONE, NOTIFICATIONS, USAGE, LOCATION, CALENDAR_READ, CALENDAR_WRITE }
 
-internal data class LocalToolRequirement(
+data class LocalToolRequirement(
     val rootRequirement: RootRequirement,
     val lsposedRequirement: LsposedRequirement = LsposedRequirement.NONE,
     val accessibility: Boolean = false,
@@ -23,7 +23,7 @@ internal data class LocalToolRequirement(
 )
 
 /** 展示、模型目录与执行边界共同使用的本地工具能力合同。未登记的工具不能发布。 */
-internal object AgentToolRequirements {
+object AgentToolRequirements {
     private val definitions = buildMap {
         fun register(root: RootRequirement, vararg names: String) {
             names.forEach { name ->

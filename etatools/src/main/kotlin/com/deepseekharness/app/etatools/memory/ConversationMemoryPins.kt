@@ -11,7 +11,7 @@ package com.deepseekharness.app.etatools.memory
  * 只在进程内保存：进程重启后首轮重新注入一次，代价是一次缓存未命中，不影响正确性；
  * 写入仍以 revision 做乐观并发校验，沿用旧快照不会覆盖他处的修改。
  */
-internal object ConversationMemoryPins {
+object ConversationMemoryPins {
     private class Pin(
         val context: AgentMemoryContext,
         val contextWindow: Int?,

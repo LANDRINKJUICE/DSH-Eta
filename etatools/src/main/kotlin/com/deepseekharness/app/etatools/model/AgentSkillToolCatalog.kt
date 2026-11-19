@@ -3,7 +3,7 @@ package com.deepseekharness.app.etatools.model
 import org.json.JSONArray
 import org.json.JSONObject
 
-internal object AgentSkillToolCatalog {
+object AgentSkillToolCatalog {
     fun appendTo(
         tools: JSONArray,
         githubDiscovery: Boolean = false,

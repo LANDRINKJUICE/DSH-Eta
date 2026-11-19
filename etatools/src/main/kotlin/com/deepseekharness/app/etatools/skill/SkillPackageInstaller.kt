@@ -27,7 +27,7 @@ data class SkillPackageLimits(
  * 所有内容先落入 skills 目录外的私有暂存区，完成路径、配额和 Skill 元数据验证后才会
  * 移入正式目录。批量替换会先备份旧目录；任一步失败都会删除新目录并恢复备份。
  */
-class SkillPackageInstaller internal constructor(
+class SkillPackageInstaller constructor(
     skillsRoot: File,
     private val indexService: SkillIndexService,
     private val limits: SkillPackageLimits = SkillPackageLimits(),
@@ -738,11 +738,11 @@ class SkillPackageInstaller internal constructor(
     }
 }
 
-internal fun interface SkillDirectoryMover {
+fun interface SkillDirectoryMover {
     fun move(source: File, target: File)
 }
 
-internal object AtomicSkillDirectoryMover : SkillDirectoryMover {
+object AtomicSkillDirectoryMover : SkillDirectoryMover {
     override fun move(source: File, target: File) {
         moveSkillDirectoryAtomically(source, target)
     }

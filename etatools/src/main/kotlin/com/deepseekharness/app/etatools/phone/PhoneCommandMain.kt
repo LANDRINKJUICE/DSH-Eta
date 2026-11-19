@@ -7,7 +7,7 @@ import kotlin.system.exitProcess
 import org.json.JSONObject
 
 /** 由 Eta 的已授权 Root 执行器启动；仅接受固定业务动作，正文只走 stdin。 */
-internal object PhoneCommandMain {
+object PhoneCommandMain {
     const val MARKER = "ETA_PHONE_RESULT:"
 
     @JvmStatic

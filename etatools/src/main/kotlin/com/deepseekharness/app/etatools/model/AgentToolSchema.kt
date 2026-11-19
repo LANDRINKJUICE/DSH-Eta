@@ -4,7 +4,7 @@ import org.json.JSONArray
 import org.json.JSONObject
 
 /** 工具 schema 拼装工具：产出 OpenAI function 格式的 JSONObject。 */
-internal object AgentToolSchema {
+object AgentToolSchema {
     fun coordinateSpace(): JSONObject =
         JSONObject()
             .put("type", "string")

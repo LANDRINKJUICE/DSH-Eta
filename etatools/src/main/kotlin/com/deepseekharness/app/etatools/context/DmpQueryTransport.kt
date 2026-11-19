@@ -8,9 +8,9 @@ import java.nio.charset.CharacterCodingException
 import java.nio.charset.CodingErrorAction
 import java.util.Locale
 
-internal data class DmpProjection(val name: String, val expression: String, val maxChars: Int = 1024)
+data class DmpProjection(val name: String, val expression: String, val maxChars: Int = 1024)
 
-internal data class DmpQuery(
+data class DmpQuery(
     val resource: String,
     val projection: List<DmpProjection>,
     val selection: String? = null,
@@ -19,7 +19,7 @@ internal data class DmpQuery(
     val offset: Int = 0,
 )
 
-internal sealed interface DmpQueryResult {
+sealed interface DmpQueryResult {
     data class Success(
         val rows: List<Map<String, String?>>,
         val truncatedFields: Set<String> = emptySet(),
@@ -28,12 +28,12 @@ internal sealed interface DmpQueryResult {
     data class Failure(val code: String, val missingColumn: String? = null) : DmpQueryResult
 }
 
-internal fun interface DmpQueryTransport {
+fun interface DmpQueryTransport {
     fun query(query: DmpQuery): DmpQueryResult
 }
 
 /** 只接受领域层构造的查询；数据经带类型标记的十六进制传输，不依赖 CLI 的文本转义。 */
-internal class RootDmpQueryTransport internal constructor(
+class RootDmpQueryTransport constructor(
     private val userId: Int,
     private val execute: (command: String, timeoutMillis: Long, maxOutputBytes: Int) -> BoundedRootCommandExecutor.Result,
 ) : DmpQueryTransport {

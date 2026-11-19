@@ -12,7 +12,7 @@ import java.util.Locale
 import org.json.JSONObject
 
 /** 系统写操作与读回验证共用同一用户和同一状态口径。 */
-internal class DeviceStateMutations(
+class DeviceStateMutations(
     private val context: Context,
     private val logger: AgentLogger? = null,
     private val executeRoot: (String) -> BoundedRootCommandExecutor.Result,
@@ -135,7 +135,7 @@ internal class DeviceStateMutations(
         null
     }
 
-    internal fun readDeviceState(target: String): Boolean? = if (target == "wifi") {
+    fun readDeviceState(target: String): Boolean? = if (target == "wifi") {
         try {
             when (context.applicationContext.getSystemService(WifiManager::class.java)?.wifiState) {
                 WifiManager.WIFI_STATE_ENABLED -> true
@@ -172,7 +172,7 @@ internal class DeviceStateMutations(
     companion object {
         private val ROTATION_LOG_KEYS = setOf("accelerometer_rotation", "user_rotation")
 
-        internal fun bluetoothState(output: String): Boolean? =
+        fun bluetoothState(output: String): Boolean? =
             when (Regex("(?m)^\\s*state:\\s*(ON|OFF|10|12)\\s*$").find(output)?.groupValues?.get(1)) {
                 "ON", "12" -> true
                 "OFF", "10" -> false

@@ -15,7 +15,7 @@ import org.json.JSONObject
  *
  * 不改动任何现有工具/执行器实现，只在最外层适配协议帧。
  */
-internal class EtaMcpToolExecutor(
+class EtaMcpToolExecutor(
     context: Context,
     logger: AgentLogger,
     private val caps: AgentToolCapabilities,

@@ -3,7 +3,7 @@ package com.deepseekharness.app.etatools.terminal
 import java.io.File
 
 /** 普通模式独立于旧版由 Root 创建的 terminal 父目录，不修改 chroot 的路径和属主。 */
-internal object TerminalPrivateStorage {
+object TerminalPrivateStorage {
     fun workspace(filesDir: File): File = directory(filesDir, "workspace")
 
     fun prootEnvironment(filesDir: File, distribution: LinuxDistribution): File =

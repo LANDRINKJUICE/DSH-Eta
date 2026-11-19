@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
-internal object MemoryEnabledStore {
+object MemoryEnabledStore {
     private val MEMORY_ENABLED = booleanPreferencesKey("memory_enabled")
     private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "eta_memory_settings")
 

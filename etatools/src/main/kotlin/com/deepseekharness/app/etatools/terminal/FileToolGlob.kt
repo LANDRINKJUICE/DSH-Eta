@@ -1,7 +1,7 @@
 package com.deepseekharness.app.etatools.terminal
 
 /** 路径段使用动态规划，段内通配符使用有界回退；不把模型输入交给正则引擎。 */
-internal class FileToolGlob(pattern: String) {
+class FileToolGlob(pattern: String) {
     private val components: List<String>
 
     init {

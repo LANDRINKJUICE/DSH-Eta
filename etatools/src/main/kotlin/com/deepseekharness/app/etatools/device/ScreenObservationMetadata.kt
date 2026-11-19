@@ -3,7 +3,7 @@ package com.deepseekharness.app.etatools.device
 import java.util.Locale
 import org.json.JSONObject
 
-internal object ScreenObservationMetadata {
+object ScreenObservationMetadata {
     fun mayUseUiAutomator(
         requested: Boolean,
         accessibilityConnected: Boolean,

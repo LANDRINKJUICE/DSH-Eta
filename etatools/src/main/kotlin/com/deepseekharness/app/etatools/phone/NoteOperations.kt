@@ -5,7 +5,7 @@ import android.net.Uri
 import java.util.UUID
 import org.json.JSONObject
 
-internal class NoteOperations(
+class NoteOperations(
     private val resolver: PhoneProviderAccess,
     private val userId: Int,
     private val callerPackage: String,
