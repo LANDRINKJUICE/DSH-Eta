@@ -2,6 +2,7 @@ package com.deepseekharness.app.eta
 
 import android.content.Context
 import android.provider.Settings
+import androidx.core.app.NotificationManagerCompat
 import android.service.notification.StatusBarNotification
 import com.deepseekharness.app.etatools.device.NotificationAccess
 
@@ -25,10 +26,10 @@ class DshaNotificationAccess : NotificationAccess {
         if (enabled.split(':').any { it.startsWith("$ownPackage/") || it == ownPackage }) {
             return true
         }
+        // NotificationManager.enabledNotificationListeners 在新 SDK 已不存在；
+        // 用 AndroidX 的公开 API 复核（内部同样读取 enabled_notification_listeners）。
         return try {
-            val manager = context.getSystemService(Context.NOTIFICATION_SERVICE)
-                    as? android.app.NotificationManager
-            manager?.enabledNotificationListeners?.any { it.packageName == ownPackage } == true
+            NotificationManagerCompat.getEnabledListenerPackages(context).contains(ownPackage)
         } catch (throwable: Throwable) {
             false
         }

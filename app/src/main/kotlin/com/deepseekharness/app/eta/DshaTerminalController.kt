@@ -171,8 +171,13 @@ class DshaTerminalController(context: Context) : TerminalController {
                 val sessionId = args.optString("session_id", "")
                 val session = sessionId.takeIf { it.isNotBlank() }?.let { sessions[it] }
                 val effective = if (session != null) "cd ${quote(session.cwd)} && $command" else command
-                val merged = if (session != null) args else cloneWith(args) {
-                    it.put("environment", session.environment).put("identity", session.identity)
+                val merged = if (session == null) {
+                    args
+                } else {
+                    val bound = session
+                    cloneWith(args) {
+                        it.put("environment", bound.environment).put("identity", bound.identity)
+                    }
                 }
                 return executeOnce(effective, merged, "terminal")
             }
@@ -630,7 +635,7 @@ class DshaTerminalController(context: Context) : TerminalController {
                 name = p.fileName?.toString() ?: resolved,
                 kind = kind,
                 sizeBytes = attrs.size(),
-                revision = sha256(signature).take(16),
+                revision = sha256(signature.toByteArray(Charsets.UTF_8)).take(16),
             )
         }
 

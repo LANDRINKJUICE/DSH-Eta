@@ -29,10 +29,10 @@ import java.util.Locale
 
 /**
  * Eta [DeviceController] 的 DSHA 宿主实现：全部屏幕动作走本进程 3090 桥
- * （[HttpShellService] 的 `/app/ui/*` 物理屏端点与 `/app/vscreen/*` 虚拟屏端点），
+ * （[HttpShellService] 的 `/app/ui/{op}` 物理屏端点与 `/app/vscreen/{op}` 虚拟屏端点），
  * 复用 DSHA 自身的 X-Token、任务围栏、识屏模式与授权确认链，不另开 shell、不绕过策略。
  *
- * 任务身份：3090 桥对每条 `/app/ui/*` 请求强制要求真实 `taskSessionId` / `turnId`
+ * 任务身份：3090 桥对每条 `/app/ui/{op}` 请求强制要求真实 `taskSessionId` / `turnId`
  * （缺失回 `SCREEN_TASK_IDENTITY_REQUIRED`）。DeviceController 接口没有任务上下文字段，
  * 因此由宿主在任务开始时调用 [bindPhoneTask] 注入，并在结束时调用 [endPhoneTask]。
  * 本类不臆造会话身份；未绑定时所有需要屏幕授权的方法返回明确的结构化错误。
@@ -739,7 +739,7 @@ class DshaDeviceController(context: Context) : DeviceController {
     // 3090 桥传输
     // ------------------------------------------------------------------
 
-    /** 每条 /app/ui/* 都强制带任务身份；动作默认带 observe=1 拿动作后新树。 */
+    /** 每条 /app/ui/{op} 都强制带任务身份；动作默认带 observe=1 拿动作后新树。 */
     private fun bridgeUi(
         operation: String,
         params: Map<String, String>,
