@@ -30,18 +30,21 @@ import com.deepseekharness.app.etatools.tool.RootAccessStatus
 class McpServerService : Service() {
 
     private var etaService: EtatoolsService? = null
+    private var deviceController: DshaDeviceController? = null
 
     override fun onCreate() {
         super.onCreate()
         startAsForeground()
         try {
+            val controller = DshaDeviceController(this)
+            deviceController = controller
             val service = EtatoolsService.create(
                 context = this,
                 port = PORT,
                 token = null,
                 logger = DefaultAgentLogger,
                 caps = buildCapabilities(),
-                deviceController = DshaDeviceController(this),
+                deviceController = controller,
                 terminalController = DshaTerminalController(this),
                 hostGui = DshaHostGui(),
             )
@@ -55,7 +58,15 @@ class McpServerService : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        if (intent?.action == ACTION_STOP) stopSelf()
+        when (intent?.action) {
+            ACTION_STOP -> stopSelf()
+            ACTION_BIND_TASK -> deviceController?.bindPhoneTask(
+                intent.getStringExtra(EXTRA_TASK_SESSION_ID),
+                intent.getStringExtra(EXTRA_TURN_ID),
+            )
+            ACTION_BEGIN_TASK -> deviceController?.beginPhoneTask()
+            ACTION_END_TASK -> deviceController?.endPhoneTask()
+        }
         return Service.START_STICKY
     }
 
@@ -67,6 +78,8 @@ class McpServerService : Service() {
         } finally {
             etaService = null
         }
+        deviceController?.close()
+        deviceController = null
         try {
             stopForeground(Service.STOP_FOREGROUND_REMOVE)
         } catch (throwable: Throwable) {
@@ -148,6 +161,12 @@ class McpServerService : Service() {
         private const val TAG = "EtaMcpService"
         const val PORT = 8790
         const val ACTION_STOP = "com.deepseekharness.app.eta.STOP_MCP"
+        /** 由调用方注入真实手机任务身份；3090 桥禁止臆造会话 ID。 */
+        const val ACTION_BIND_TASK = "com.deepseekharness.app.eta.BIND_PHONE_TASK"
+        const val ACTION_BEGIN_TASK = "com.deepseekharness.app.eta.BEGIN_PHONE_TASK"
+        const val ACTION_END_TASK = "com.deepseekharness.app.eta.END_PHONE_TASK"
+        const val EXTRA_TASK_SESSION_ID = "taskSessionId"
+        const val EXTRA_TURN_ID = "turnId"
         private const val CHANNEL_ID = "eta_mcp"
         private const val NOTIFICATION_ID = 9067
     }
