@@ -12,6 +12,13 @@ android {
     defaultConfig {
         minSdk 30
     }
+    // 与 :app 的 flavor 对齐，避免 variant 歧义（:app 有 androidSupport/standard）
+    flavorDimensions 'androidSupport'
+    productFlavors {
+        standard {
+            dimension 'androidSupport'
+        }
+    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17

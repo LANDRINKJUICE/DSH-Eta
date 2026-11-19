@@ -1,6 +1,6 @@
 name: Update dependency verification metadata
 
-# 一次性工作流：引入新依赖后，用 :etatools:compileReleaseKotlin 解析依赖图并重新生成
+# 一次性工作流：引入新依赖后，用 :etatools:compileStandardReleaseKotlin 解析依赖图并重新生成
 # gradle/verification-metadata.xml（含传递依赖的 sha256），然后自动提交推送。
 # 手动触发。DSHA 启用了依赖校验，新依赖必须先更新元数据，否则解析失败。
 on:
@@ -28,7 +28,7 @@ jobs:
         uses: gradle/actions/setup-gradle@ed408507eac070d1f99cc633dbcf757c94c7933a # v4
 
       - name: 重新生成依赖校验元数据
-        run: ./gradlew --no-daemon --write-verification-metadata sha256 :etatools:compileReleaseKotlin
+        run: ./gradlew --no-daemon --write-verification-metadata sha256 :etatools:compileStandardReleaseKotlin
 
       - name: 提交并推送
         run: |
