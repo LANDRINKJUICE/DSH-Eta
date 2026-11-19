@@ -1,7 +1,7 @@
 package com.deepseekharness.app.etatools.model
 
 /**
- * 工具层类型契约。从 Eta 的 AgentModelClient 抽出为顶层类型，避免拖入 provider/loop 链。
+ * 工具层类型契约。从 Eta 的模型客户端抽出为顶层类型，避免拖入 provider/loop 链。
  * 这些是工具 schema / 执行器 / MCP 层共用的纯数据与接口类型，无 Android 依赖。
  */
 
