@@ -39,3 +39,8 @@ jobs:
           grep -q 'releaseIdentity=etadsh' identity.log
           grep -q 'applicationId=dsh.android.client' identity.log
           grep -q 'certificateSha256=f2c1d39e23a20ac55334bae0cc5e9efd19a73cb11330e9469b33aff9ee60ec8a' identity.log
+
+      - name: 编译 Kotlin 工具层（验证 AGP 9 内置 Kotlin 编译，不触发 preBuild/rootfs）
+        run: |
+          ./gradlew --no-daemon --no-configuration-cache :app:compileStandardReleaseKotlin 2>&1 | tee compile.log
+          grep -q 'BUILD SUCCESSFUL' compile.log
